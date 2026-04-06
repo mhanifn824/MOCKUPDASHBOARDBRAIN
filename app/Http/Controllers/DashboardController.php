@@ -8,14 +8,8 @@ use Carbon\CarbonPeriod;
 
 class DashboardController extends Controller
 {
-    /**
-     * Entry point untuk Executive Dashboard (BRAIN).
-     */
     public function index(Request $request)
     {
-        // -------------------------------------------------------------------------
-        // 1. Konfigurasi Filter & Inisialisasi Baseline
-        // -------------------------------------------------------------------------
         $filterYear = $request->input('year', 'CURRENT'); 
         $filterMonth = $request->input('month', 'ALL');     
         $filterProject = $request->input('project', 'ALL'); 
@@ -24,9 +18,6 @@ class DashboardController extends Controller
         $currentYear = 2026;
         $currentMonth = 2; 
 
-        // -------------------------------------------------------------------------
-        // 2. Mapping Master Data Project
-        // -------------------------------------------------------------------------
         $projectsData = [
             ['name' => 'RDMP RU V Balikpapan Phase I', 'color' => '#FF2E2E'], 
             ['name' => 'New Polypropylene Plant Balongan', 'color' => '#FF6B00'], 
@@ -52,9 +43,6 @@ class DashboardController extends Controller
             ['name' => 'RDMP RU V Lawe - Lawe', 'color' => '#E74C3C'], 
         ];
 
-        // -------------------------------------------------------------------------
-        // 3. Konfigurasi Sumbu X (X-Axis) & Judul Dinamis
-        // -------------------------------------------------------------------------
         $chartCategories = [];   
         $chartTooltipDates = []; 
         $dynamicChartTitle = "";
@@ -91,9 +79,6 @@ class DashboardController extends Controller
             }
         }
 
-        // -------------------------------------------------------------------------
-        // 4. Kalkulasi Data Volume Dokumen
-        // -------------------------------------------------------------------------
         $barChartData = []; 
         $waveChartData = []; 
         $grandTotalDocuments = 0; 
@@ -148,9 +133,6 @@ class DashboardController extends Controller
             return $posA <=> $posB;
         });
 
-        // -------------------------------------------------------------------------
-        // 5. Formatting Payload View (Data Chart)
-        // -------------------------------------------------------------------------
         $fullBarNames = array_column($barChartData, 'name');
         $fullBarValues = array_column($barChartData, 'total');
         $fullBarColors = array_column($barChartData, 'color');
@@ -221,72 +203,10 @@ class DashboardController extends Controller
                 ['doc_name' => 'Pre_Feasibility_Study_Report_Dumai_v2.pdf', 'project' => 'New DHT Dumai', 'uploader' => 'Dimas Pratama', 'date' => '17-Feb-2026', 'size' => '8.6 MB', 'type' => 'PDF'],
                 ['doc_name' => 'Market_Analysis_Data_Tuban.xlsx', 'project' => 'GRR Tuban', 'uploader' => 'I Putu Borneo', 'date' => '12-Feb-2026', 'size' => '4.1 MB', 'type' => 'XLSX'],
                 ['doc_name' => 'Site_Selection_Criteria.pptx', 'project' => 'Petrochemical Jawa Barat', 'uploader' => 'Citra Dewi', 'date' => '09-Feb-2026', 'size' => '12.5 MB', 'type' => 'PPTX'],
-                ['doc_name' => 'Preliminary_Cost_Estimate.xlsx', 'project' => 'New EWTP Balongan', 'uploader' => 'Muhammad Syafri', 'date' => '04-Feb-2026', 'size' => '1.8 MB', 'type' => 'XLSX'],
-                ['doc_name' => 'Environmental_Impact_Screening.pdf', 'project' => 'Green Refinery Plaju', 'uploader' => 'Andi Wijaya', 'date' => '01-Feb-2026', 'size' => '4.2 MB', 'type' => 'PDF'],
-            ],
-            '03. Pre-FID/Early Work' => [
-                ['doc_name' => 'Site_Preparation_Survey_Balongan.pdf', 'project' => 'RDMP RU VI Balongan Phase I', 'uploader' => 'Citra Dewi', 'date' => '05-Feb-2026', 'size' => '5.2 MB', 'type' => 'PDF'],
-                ['doc_name' => 'Early_Works_Approval_Memo.docx', 'project' => 'RDMP RU V Early Works 1', 'uploader' => 'Hanif Naufal', 'date' => '02-Feb-2026', 'size' => '890 KB', 'type' => 'DOCX'],
-                ['doc_name' => 'Land_Acquisition_Status_Report.pdf', 'project' => 'GRR Tuban', 'uploader' => 'Budi Santoso', 'date' => '28-Jan-2026', 'size' => '3.1 MB', 'type' => 'PDF'],
-                ['doc_name' => 'Geotechnical_Investigation_Data.xlsx', 'project' => 'New DHT Cilacap', 'uploader' => 'I Putu Borneo', 'date' => '25-Jan-2026', 'size' => '6.4 MB', 'type' => 'XLSX'],
-                ['doc_name' => 'Budget_Allocation_Early_Works.pdf', 'project' => 'RDMP RU V Early Works 1', 'uploader' => 'Siti Nurhaliza', 'date' => '20-Jan-2026', 'size' => '1.5 MB', 'type' => 'PDF'],
-            ],
-            '04. BED' => [
-                ['doc_name' => 'Basic_Engineering_Design_Data.xlsx', 'project' => 'New Polypropylene Plant Balongan', 'uploader' => 'Budi Santoso', 'date' => '20-Jan-2026', 'size' => '12.5 MB', 'type' => 'XLSX'],
-                ['doc_name' => 'Process_Flow_Diagram_Draft.pdf', 'project' => 'Green Refinery Plaju', 'uploader' => 'Rina Melati', 'date' => '18-Jan-2026', 'size' => '3.8 MB', 'type' => 'PDF'],
-                ['doc_name' => 'Equipment_Sizing_Calculation.xlsx', 'project' => 'New DHT Dumai', 'uploader' => 'Dimas Pratama', 'date' => '15-Jan-2026', 'size' => '2.2 MB', 'type' => 'XLSX'],
-                ['doc_name' => 'Material_Selection_Diagram.pdf', 'project' => 'RDMP RU V ISBL - OSBL', 'uploader' => 'Muhammad Syafri', 'date' => '10-Jan-2026', 'size' => '5.6 MB', 'type' => 'PDF'],
-                ['doc_name' => 'Utility_Consumption_Summary.docx', 'project' => 'Biorefinery Cilacap', 'uploader' => 'Andi Wijaya', 'date' => '08-Jan-2026', 'size' => '1.1 MB', 'type' => 'DOCX'],
-            ],
-            '05. FEED' => [
-                ['doc_name' => 'FEED_Final_Report_Cilacap.pdf', 'project' => 'RFCC Cilacap', 'uploader' => 'Andi Wijaya', 'date' => '10-Jan-2026', 'size' => '45.2 MB', 'type' => 'PDF'],
-                ['doc_name' => 'P&ID_Master_Drawing.pdf', 'project' => 'New DHT Plaju', 'uploader' => 'Muhammad Syafri', 'date' => '05-Jan-2026', 'size' => '18.1 MB', 'type' => 'PDF'],
-                ['doc_name' => 'HAZOP_Study_Report_Final.pdf', 'project' => 'RDMP RU VI Balongan Phase I', 'uploader' => 'Siti Nurhaliza', 'date' => '03-Jan-2026', 'size' => '9.4 MB', 'type' => 'PDF'],
-                ['doc_name' => 'Instrument_Data_Sheets.xlsx', 'project' => 'Olefin TPPI', 'uploader' => 'Citra Dewi', 'date' => '28-Dec-2025', 'size' => '8.7 MB', 'type' => 'XLSX'],
-                ['doc_name' => 'Project_Execution_Plan_FEED.docx', 'project' => 'Petrochemical Jawa Barat', 'uploader' => 'Hanif Naufal', 'date' => '20-Dec-2025', 'size' => '2.9 MB', 'type' => 'DOCX'],
             ]
         ];
 
-        // -------------------------------------------------------------------------
-        // 7. Audit Trail Data Log (Initial Data - The rest handled by JS for Dynamic Live effect)
-        // -------------------------------------------------------------------------
-        $activityLogs = [
-            [
-                'user' => 'Andi Wijaya', 'initial' => 'AW', 'avatar_color' => 'bg-green-100 text-green-700',
-                'action_label' => 'Uploaded', 'action_color' => 'text-green-700 bg-green-50 border-green-200',
-                'document' => 'P&ID_RDMP_Balikpapan_v2.pdf', 'location' => 'Project: RDMP RU V Balikpapan',
-                'time' => '1 mins ago',
-                'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />'
-            ],
-            [
-                'user' => 'Siti Nurhaliza', 'initial' => 'SN', 'avatar_color' => 'bg-purple-100 text-purple-700',
-                'action_label' => 'Asked AI', 'action_color' => 'text-purple-700 bg-purple-50 border-purple-200',
-                'document' => 'Prompt: "Summarize HAZOP Report..."', 'location' => 'Module: AI Chatbot',
-                'time' => '5 mins ago',
-                'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />'
-            ],
-            [
-                'user' => 'Budi Santoso', 'initial' => 'BS', 'avatar_color' => 'bg-blue-100 text-blue-700',
-                'action_label' => 'Updated Metadata', 'action_color' => 'text-blue-700 bg-blue-50 border-blue-200',
-                'document' => 'LAPORAN AKHIR Studi Fault Risk...', 'location' => 'Project: NGRR GRR Tuban',
-                'time' => '12 mins ago',
-                'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />'
-            ],
-            [
-                'user' => 'Rina Melati', 'initial' => 'RM', 'avatar_color' => 'bg-teal-100 text-teal-700',
-                'action_label' => 'Searched', 'action_color' => 'text-teal-700 bg-teal-50 border-teal-200',
-                'document' => 'Keyword: "Piping Work ISO"', 'location' => 'Module: Smart Search',
-                'time' => '25 mins ago',
-                'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />'
-            ],
-            [
-                'user' => 'Dimas Pratama', 'initial' => 'DP', 'avatar_color' => 'bg-red-100 text-red-700',
-                'action_label' => 'Deleted', 'action_color' => 'text-red-700 bg-red-50 border-red-200',
-                'document' => 'Draft_Kontrak_Lama_v1.pdf', 'location' => 'Module: Documents Inventory',
-                'time' => '45 mins ago',
-                'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />'
-            ]
-        ];
+        $activityLogs = []; // Handled by JS
 
         $qaRecentDocs = [
             ['name' => 'Tes Kirim File Fungsi.pdf', 'type' => 'pdf', 'category' => 'Fungsi', 'security' => 'Public', 'date' => '04-Feb-2026 09:20:23'],
@@ -316,9 +236,7 @@ class DashboardController extends Controller
         ];
 
         $trendingKeywords = [
-            '#HAZOP_Balongan',
-            '#Kontrak_EPC_Tuban',
-            '#P&ID_Cilacap'
+            '#HAZOP_Balongan', '#Kontrak_EPC_Tuban', '#P&ID_Cilacap'
         ];
 
         $dummyFiles = [];
@@ -343,7 +261,6 @@ class DashboardController extends Controller
     {
         $searchQuery = $request->query('q', '');
         
-        // Dummy Database Dokumen (Kaya Variasi)
         $allDocs = [
             ['title' => 'Pipa Instalasi Area 5', 'project' => 'RDMP RU V Balikpapan', 'category' => 'Engineering', 'type' => 'pdf', 'date' => '10-Feb-2026'],
             ['title' => 'Piping Isometric Drawing', 'project' => 'RDMP RU V Balikpapan', 'category' => 'Engineering', 'type' => 'pdf', 'date' => '12-Feb-2026'],
@@ -353,11 +270,9 @@ class DashboardController extends Controller
             ['title' => 'Spesifikasi Material Piping', 'project' => 'New DHT Plaju', 'category' => 'Engineering', 'type' => 'xlsx', 'date' => '01-Mar-2026'],
             ['title' => 'Desain Pipa Bawah Laut', 'project' => 'SPL SPM Balongan', 'category' => 'Engineering', 'type' => 'pdf', 'date' => '03-Mar-2026'],
             ['title' => 'Review Piping Layout', 'project' => 'Biorefinery Cilacap', 'category' => 'Engineering', 'type' => 'pdf', 'date' => '04-Mar-2026'],
-            
             ['title' => 'Laporan HAZOP Balongan Tahap 1', 'project' => 'RDMP RU VI Balongan Phase I', 'category' => 'HSE', 'type' => 'pdf', 'date' => '20-Feb-2026'],
             ['title' => 'MoM HAZOP Review Tuban', 'project' => 'GRR Tuban', 'category' => 'HSE', 'type' => 'docx', 'date' => '22-Feb-2026'],
             ['title' => 'Panduan Keselamatan HAZOP', 'project' => 'RDMP RU V Balikpapan', 'category' => 'HSE', 'type' => 'pdf', 'date' => '02-Mar-2026'],
-            
             ['title' => 'Draft Kontrak EPC Tuban', 'project' => 'GRR Tuban', 'category' => 'Legal', 'type' => 'docx', 'date' => '26-Feb-2026'],
             ['title' => 'Agreement EPC Balongan', 'project' => 'RDMP RU VI Balongan Phase I', 'category' => 'Legal', 'type' => 'pdf', 'date' => '27-Feb-2026'],
             ['title' => 'P&ID Cilacap Master Diagram', 'project' => 'RFCC Cilacap', 'category' => 'Engineering', 'type' => 'xlsx', 'date' => '21-Feb-2026'],
@@ -368,91 +283,84 @@ class DashboardController extends Controller
         $detectedOperators = [];
 
         if (!empty($searchQuery)) {
-            // Trim ruang (spasi) ekstra
             $queryStr = trim($searchQuery);
-
-            // Cek apakah mengandung operator Boolean kapital (Mendeteksi unlimited operator)
             if (preg_match('/\b(AND|OR|NOT)\b/', $queryStr)) {
                 $isBooleanUsed = true;
-                
-                // Mengambil daftar semua operator yang dipakai user untuk di-display ke UI
                 preg_match_all('/\b(AND|OR|NOT)\b/', $queryStr, $matches);
                 $detectedOperators = array_values(array_unique($matches[0]));
-                
-                // Pisahkan string berdasarkan operator. Hasilnya berupa array kalimat dan operator secara selang-seling.
-                // Contoh: ['HAZOP', 'AND', 'Balongan', 'NOT', 'Tuban']
                 $tokens = preg_split('/(\bAND\b|\bOR\b|\bNOT\b)/', $queryStr, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
                 $tokens = array_map('trim', $tokens);
 
-                // ALGORITMA EVALUASI FLEKSIBEL (Left-to-Right Sequential Evaluator)
                 foreach ($allDocs as $doc) {
                     $content = strtolower($doc['title'] . ' ' . $doc['project'] . ' ' . $doc['category']);
-                    
-                    // Fungsi internal cerdas untuk mengecek sebuah kata/frasa
                     $checkToken = function($token, $text) {
-                        // Hapus tanda baca (, ), dan " agar lebih mudah ketemu (Flexibility)
                         $cleanToken = strtolower(trim(str_replace(['(', ')', '"'], '', $token)));
                         if (empty($cleanToken)) return true;
-                        
-                        // Jika 1 token ternyata terdiri dari beberapa kata (misal: Laporan Keuangan)
                         $subWords = explode(' ', $cleanToken);
                         foreach($subWords as $sw) {
-                            if (trim($sw) !== '' && strpos($text, $sw) === false) {
-                                return false; // Salah satu kata tidak ada, langsung gagalkan token ini
-                            }
+                            if (trim($sw) !== '' && strpos($text, $sw) === false) return false;
                         }
                         return true;
                     };
 
-                    // Set evaluasi berdasarkan kata / frasa pertama
                     $isMatch = $checkToken($tokens[0], $content);
-
-                    // Looping tanpa batas: Evaluasi sisa token berapapun panjangnya
                     for ($i = 1; $i < count($tokens); $i += 2) {
-                        if (!isset($tokens[$i+1])) break; // Mencegah error index out of bounds jika pengetikan user gantung
-
+                        if (!isset($tokens[$i+1])) break;
                         $operator = $tokens[$i];
                         $nextWordExists = $checkToken($tokens[$i+1], $content);
 
-                        if ($operator === 'AND') {
-                            $isMatch = $isMatch && $nextWordExists;
-                        } elseif ($operator === 'OR') {
-                            $isMatch = $isMatch || $nextWordExists;
-                        } elseif ($operator === 'NOT') {
-                            $isMatch = $isMatch && !$nextWordExists;
-                        }
+                        if ($operator === 'AND') { $isMatch = $isMatch && $nextWordExists; } 
+                        elseif ($operator === 'OR') { $isMatch = $isMatch || $nextWordExists; } 
+                        elseif ($operator === 'NOT') { $isMatch = $isMatch && !$nextWordExists; }
                     }
-
-                    if ($isMatch) {
-                        $results[] = $doc;
-                    }
+                    if ($isMatch) $results[] = $doc;
                 }
             } 
-            // PENCARIAN REGULAR (Tanpa Boolean)
             else {
-                // Untuk handle hashtag dari dashboard (misal: HAZOP_Balongan menjadi HAZOP Balongan)
                 $term = strtolower(str_replace(['_', '(', ')', '"'], ' ', $queryStr)); 
                 $words = explode(' ', $term);
-                
                 foreach ($allDocs as $doc) {
                     $content = strtolower($doc['title'] . ' ' . $doc['project'] . ' ' . $doc['category']);
                     $matchAll = true;
                     foreach($words as $word) {
                         if (trim($word) !== '' && strpos($content, trim($word)) === false) {
-                            $matchAll = false;
-                            break;
+                            $matchAll = false; break;
                         }
                     }
-                    if ($matchAll) {
-                        $results[] = $doc;
-                    }
+                    if ($matchAll) $results[] = $doc;
                 }
             }
         } else {
-            // Jika kosong, tampilkan semua
             $results = $allDocs;
         }
 
         return view('smart-search', compact('searchQuery', 'results', 'isBooleanUsed', 'detectedOperators'));
+    }
+
+    // FUNGSI BARU UNTUK PREVIEW
+    public function previewDocument(Request $request)
+    {
+        $docTitle = $request->query('doc', 'Dokumen_Preview.pdf');
+        
+        $isPDF = strpos(strtolower($docTitle), '.pdf') !== false;
+        $isDoc = strpos(strtolower($docTitle), '.doc') !== false;
+        $isXls = strpos(strtolower($docTitle), '.xls') !== false;
+        
+        $docType = 'PDF Document';
+        if($isDoc) $docType = 'Word Document';
+        if($isXls) $docType = 'Excel Spreadsheet';
+
+        $metadata = [
+            'title' => str_replace(['.pdf', '.docx', '.xlsx'], '', $docTitle),
+            'full_name' => $docTitle . (!$isPDF && !$isDoc && !$isXls ? '.pdf' : ''),
+            'size' => rand(1, 15) . '.' . rand(10, 99) . ' MB',
+            'date' => Carbon::now()->subDays(rand(0, 5))->format('d-M-Y H:i'),
+            'security' => ['Public', 'Internal', 'Confidential', 'Restricted'][rand(0, 3)], 
+            'project' => ['RDMP RU V Balikpapan', 'GRR Tuban', 'New DHT Dumai'][rand(0, 2)], 
+            'no_doc' => 'PPN-DOC-' . rand(1000, 9999),
+            'type' => $docType,
+            'category' => ['Engineering', 'HSE', 'Legal', 'Commercial'][rand(0, 3)]
+        ];
+        return view('preview', compact('metadata'));
     }
 }
