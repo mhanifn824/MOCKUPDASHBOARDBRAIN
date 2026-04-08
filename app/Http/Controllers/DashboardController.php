@@ -337,7 +337,6 @@ class DashboardController extends Controller
         return view('smart-search', compact('searchQuery', 'results', 'isBooleanUsed', 'detectedOperators'));
     }
 
-    // FUNGSI BARU UNTUK PREVIEW
     public function previewDocument(Request $request)
     {
         $docTitle = $request->query('doc', 'Dokumen_Preview.pdf');

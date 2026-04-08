@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #E2E8F0; /* Abu-abu mirip PDF Viewer viewer */ }
+        body { font-family: 'Inter', sans-serif; background-color: #E2E8F0; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
     </style>
@@ -31,7 +31,6 @@
     </header>
 
     <div class="flex-1 flex overflow-hidden">
-        
         <main class="flex-1 overflow-y-auto p-8 flex justify-center items-start">
             <div class="w-full max-w-4xl bg-white shadow-2xl min-h-[1100px] p-12 border border-gray-300 relative">
                 <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03]">
@@ -60,22 +59,10 @@
                 <div>
                     <h3 class="text-xs text-gray-500 font-semibold mb-3 border-b pb-1">System Metadata</h3>
                     <div class="space-y-3 text-sm">
-                        <div>
-                            <span class="block text-[10px] text-gray-400 font-bold uppercase">Document Title</span>
-                            <span class="font-semibold text-gray-800">{{ $metadata['title'] }}</span>
-                        </div>
-                        <div>
-                            <span class="block text-[10px] text-gray-400 font-bold uppercase">Document Number</span>
-                            <span class="font-semibold text-blue-600">{{ $metadata['no_doc'] }}</span>
-                        </div>
-                        <div>
-                            <span class="block text-[10px] text-gray-400 font-bold uppercase">Revision</span>
-                            <span class="font-semibold text-gray-800 bg-gray-100 px-2 py-0.5 rounded">Rev. 0A (Approved)</span>
-                        </div>
-                        <div>
-                            <span class="block text-[10px] text-gray-400 font-bold uppercase">Project / Facility</span>
-                            <span class="font-semibold text-gray-800">{{ $metadata['project'] }}</span>
-                        </div>
+                        <div><span class="block text-[10px] text-gray-400 font-bold uppercase">Document Title</span><span class="font-semibold text-gray-800">{{ $metadata['title'] }}</span></div>
+                        <div><span class="block text-[10px] text-gray-400 font-bold uppercase">Document Number</span><span class="font-semibold text-blue-600">{{ $metadata['no_doc'] }}</span></div>
+                        <div><span class="block text-[10px] text-gray-400 font-bold uppercase">Revision</span><span class="font-semibold text-gray-800 bg-gray-100 px-2 py-0.5 rounded">Rev. 0A (Approved)</span></div>
+                        <div><span class="block text-[10px] text-gray-400 font-bold uppercase">Project / Facility</span><span class="font-semibold text-gray-800">{{ $metadata['project'] }}</span></div>
                     </div>
                 </div>
 
@@ -88,10 +75,7 @@
                             @elseif($metadata['security'] == 'Confidential') <span class="bg-orange-100 text-orange-700 px-2.5 py-1 rounded text-xs font-bold border border-orange-300">Confidential</span>
                             @else <span class="bg-blue-100 text-blue-700 px-2.5 py-1 rounded text-xs font-bold border border-blue-300">Internal</span> @endif
                         </div>
-                        <div>
-                            <span class="block text-[10px] text-gray-400 font-bold uppercase">Document Type</span>
-                            <span class="font-semibold text-gray-800">{{ $metadata['type'] }}</span>
-                        </div>
+                        <div><span class="block text-[10px] text-gray-400 font-bold uppercase">Document Type</span><span class="font-semibold text-gray-800">{{ $metadata['type'] }}</span></div>
                     </div>
                 </div>
 
@@ -106,6 +90,5 @@
             </div>
         </aside>
     </div>
-
 </body>
 </html>

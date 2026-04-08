@@ -546,19 +546,8 @@
         </div>
     </div>
 
-    <div id="ai-toast" class="fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-4 rounded-2xl shadow-2xl z-[100] border border-slate-700 transform translate-y-20 opacity-0 transition-all duration-500 flex items-center gap-4 min-w-[320px]">
-        <div id="ai-toast-spinner" class="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin shrink-0"></div>
-        <div id="ai-toast-icon" class="hidden w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white shrink-0"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></div>
-        <div class="flex-1">
-            <h5 id="ai-toast-title" class="text-xs font-bold text-blue-300 uppercase tracking-widest mb-0.5">AI Security Scanner</h5>
-            <p id="ai-toast-msg" class="text-sm font-medium text-slate-200 line-clamp-1">Scanning document...</p>
-        </div>
-    </div>
-
     <script>
-        // =========================================================
         // 1. TRANSISI CEPAT UNTUK FILTER (TIDAK BERKEDIP)
-        // =========================================================
         function submitFilter() {
             document.getElementById('filter-loader').classList.remove('hidden');
             document.getElementById('main-content').style.opacity = '0.5';
@@ -566,9 +555,7 @@
             setTimeout(() => { document.getElementById('filterForm').submit(); }, 100); 
         }
 
-        // =========================================================
-        // 2. LIVE SYSTEM AUDIT TRAIL LOGIC (UTUH)
-        // =========================================================
+        // 2. LIVE SYSTEM AUDIT TRAIL LOGIC (TANPA TOAST AI SCANNER)
         const fakeUsers = [
             { name: 'Rizky Ramadhan', initial: 'RR' }, { name: 'Nadia Saphira', initial: 'NS' },
             { name: 'Ahmad Fauzi', initial: 'AF' }, { name: 'Dewi Lestari', initial: 'DL' },
@@ -610,9 +597,7 @@
             };
         }
 
-        // =========================================================
         // 3. AI COUNTER (MENGHUBUNGKAN AUDIT TRAIL KE AI IMPACT)
-        // =========================================================
         let currentQueries = {{ str_replace(',', '', $aiImpact['total_queries']) }};
         let currentDocsSummarized = {{ str_replace(',', '', $aiImpact['documents_summarized']) }};
 
@@ -634,13 +619,8 @@
             const log = generateRandomLog();
             const safeTitle = log.document.replace(/"/g, '&quot;'); 
             
-            // Trigger AI Counter jika relevan
             if (log.action_label === 'Asked AI' || log.action_label === 'Searched') {
                 updateAiImpactCounter('ai_query');
-            }
-            // Trigger Toast Scanner jika diupload
-            if (log.action_label === 'Uploaded') {
-                showAiScannerToast(log.document);
             }
 
             const liveTbody = document.getElementById('liveAuditTableBody');
@@ -700,9 +680,7 @@
             }, nextInterval);
         }
 
-        // =========================================================
-        // 4. LIVE ONLINE USERS & TRENDING SHUFFLING (UTUH)
-        // =========================================================
+        // 4. LIVE ONLINE USERS & TRENDING SHUFFLING
         let currentOnline = 42;
         setInterval(() => {
             let fluctuation = Math.floor(Math.random() * 6) - 2; 
@@ -747,51 +725,14 @@
             }
         }, 8000);
 
-        function showAiScannerToast(documentName) {
-            const toast = document.getElementById('ai-toast');
-            const spinner = document.getElementById('ai-toast-spinner');
-            const icon = document.getElementById('ai-toast-icon');
-            const msg = document.getElementById('ai-toast-msg');
-            const title = document.getElementById('ai-toast-title');
-
-            spinner.classList.remove('hidden');
-            icon.classList.add('hidden');
-            title.innerText = 'AI Security Scanner';
-            title.className = 'text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-0.5';
-            msg.innerText = `Analyzing: ${documentName.substring(0, 25)}...`;
-            
-            toast.style.transform = 'translateY(0)';
-            toast.style.opacity = '1';
-
-            setTimeout(() => {
-                spinner.classList.add('hidden');
-                icon.classList.remove('hidden');
-                const levels = ['Internal', 'Confidential', 'Restricted'];
-                const level = levels[Math.floor(Math.random() * levels.length)];
-                
-                title.innerText = 'Auto-Tagging Complete';
-                title.className = 'text-[10px] font-bold text-green-400 uppercase tracking-widest mb-0.5';
-                msg.innerHTML = `Classified as <strong class="text-white">${level}</strong>`;
-                
-                setTimeout(() => {
-                    toast.style.transform = 'translateY(20px)';
-                    toast.style.opacity = '0';
-                }, 3000);
-            }, 2000);
-        }
-
-        // =========================================================
-        // 5. INISIALISASI HALAMAN (UTUH)
-        // =========================================================
+        // 5. INISIALISASI HALAMAN
         document.addEventListener('DOMContentLoaded', () => {
             renderWatchlist();
             for(let i = 0; i < 5; i++) { triggerNewLiveLog(); }
             startLiveSimulation(); 
         });
 
-        // =========================================================
-        // 6. WATCHLIST & MODALS (UTUH)
-        // =========================================================
+        // 6. WATCHLIST & MODALS
         const currentFilter = @json($filterProject);
         let watchlist = JSON.parse(localStorage.getItem('brain_watchlist'));
         if (!watchlist || watchlist.length === 0) {
@@ -837,7 +778,6 @@
             if(phaseDocumentsData[phaseKey]) {
                 phaseDocumentsData[phaseKey].forEach(doc => {
                     let typeBadge = doc.type === 'PDF' ? `<div class="w-7 h-7 bg-red-100 rounded-lg flex items-center justify-center text-red-600 font-black text-[8px] shrink-0 border border-red-200">PDF</div>` : (['word', 'docx'].includes(doc.type.toLowerCase()) ? `<div class="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 font-black text-[8px] shrink-0 border border-blue-200">DOC</div>` : `<div class="w-7 h-7 bg-green-100 rounded-lg flex items-center justify-center text-green-600 font-black text-[8px] shrink-0 border border-green-200">XLS</div>`);
-                    // KLIK BARIS KE PREVIEW
                     tbody.innerHTML += `
                         <tr class="border-b border-gray-100 hover:bg-blue-50 transition-colors cursor-pointer group" onclick="window.location='{{ url('/preview') }}?doc=${encodeURIComponent(doc.doc_name)}'">
                             <td class="py-3 pl-4 flex items-center gap-3">${typeBadge}<div><div class="font-bold text-gray-900 text-xs group-hover:text-blue-700 transition-colors">${doc.doc_name}</div><div class="text-[9px] text-gray-500 font-bold mt-0.5">${doc.size}</div></div></td>
@@ -867,9 +807,7 @@
             else { c.classList.add('hidden'); t.innerText = "Show table"; i.classList.add('rotate-180'); }
         }
 
-        // =========================================================
-        // 7. APEX CHARTS (UTUH)
-        // =========================================================
+        // 7. APEX CHARTS
         const topProjectNames = @json($barNames); const topProjectValues = @json($barValues); const topProjectColors = @json($barColors);
         const fullProjectNames = @json($fullBarNames); const fullProjectValues = @json($fullBarValues); const fullProjectColors = @json($fullBarColors);
         const waveSeries = @json($waveSeries); const waveColors = @json($waveColors);

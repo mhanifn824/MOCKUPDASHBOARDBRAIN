@@ -100,13 +100,13 @@
                 return `Berdasarkan integrasi real-time dengan PIPMS, saat ini terdapat total **${totalDocs} dokumen** yang telah terindeks secara penuh ke dalam sistem BRAIN.`;
             } 
             else if (query.includes('proyek') || query.includes('project') || query.includes('terbanyak')) {
-                return `Untuk metrik proyek saat ini, **${topProject}** memimpin volume penyimpanan dokumen terbesar di dashboard kita, mencakup lebih dari 40% dari total dokumen engineering.`;
+                return `Untuk metrik proyek saat ini, **${topProject}** memimpin volume penyimpanan dokumen terbesar di dashboard kita.`;
             } 
             else if (query.includes('user') || query.includes('aktif') || query.includes('pengguna')) {
                 return `Traffic dashboard menunjukkan ada **${activeUsers} pengguna aktif** dalam 30 hari terakhir dari berbagai fungsi direktorat infrastruktur.`;
             }
             else if (query.includes('hazop')) {
-                return `Saya mendeteksi kata kunci HAZOP. Beberapa dokumen HAZOP (seperti HAZOP Balongan Tahap 1) telah di-tag sebagai **Restricted** oleh AI Security Scanner karena mengandung mitigasi risiko kilang Obvitnas. Anda ingin saya merangkum rekomendasinya?`;
+                return `Saya mendeteksi kata kunci HAZOP. Beberapa dokumen HAZOP (seperti HAZOP Balongan Tahap 1) telah di-tag sebagai **Restricted** oleh sistem keamanan karena mengandung mitigasi risiko kilang Obvitnas. Anda ingin saya merangkum rekomendasinya?`;
             }
             else {
                 return `Maaf, sebagai AI Mockup, saya dikonfigurasi untuk menjawab konteks metrik dashboard (seperti "Total Dokumen", "Proyek Terbanyak", atau "User Aktif"). Silakan ajukan pertanyaan terkait metrik tersebut.`;
