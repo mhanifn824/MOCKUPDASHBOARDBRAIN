@@ -346,10 +346,10 @@ class DashboardController extends Controller
     // =========================================================================
     // 2. SMART SEARCH ROUTE
     // =========================================================================
-    public function smartSearch(Request $request)
+   public function smartSearch(Request $request)
     {
         $query = $request->input('q', '');
-        $searchQuery = $query;
+        $searchQuery = $query; // <-- INI TAMBAHANNYA AGAR TIDAK ERROR
         $results = [];
 
         if (!empty($query)) {
@@ -360,7 +360,7 @@ class DashboardController extends Controller
             ];
         }
 
-        return view('smart-search', compact('query', 'searchQuery', 'results'));
+        return view('smart-search', compact('query', 'searchQuery', 'results')); // <-- PASTIKAN searchQuery DIMASUKKAN KE SINI
     }
 
     // =========================================================================
