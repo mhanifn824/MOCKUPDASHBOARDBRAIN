@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Search - BRAIN</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="https://cdn.skypack.dev/@hotwired/turbo"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
-        @keyframes fadeInPage { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fadeInPage 0.2s ease-out forwards; }
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; animation: fadeIn 0.3s ease-in-out; transition: opacity 0.2s ease-in-out; }
+        .turbo-progress-bar { height: 3px; background-color: #005596; }
+        .fade-out { opacity: 0 !important; }
+        @keyframes fadeIn { from { opacity: 0.3; } to { opacity: 1; } }
     </style>
 </head>
-<body class="text-slate-800 flex flex-col h-screen overflow-hidden animate-fade-in">
+<body class="text-slate-800 flex flex-col h-screen overflow-hidden">
     <header class="bg-white border-b px-6 py-4 flex justify-between items-center shadow-sm z-10">
         <div class="flex items-center gap-4">
             <a href="{{ route('dashboard') }}" class="p-2 bg-gray-100 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-gray-600 transition">
@@ -42,8 +44,8 @@
                     <thead class="text-xs uppercase bg-white border-b-2"><tr><th class="py-4 pl-6">Title</th><th>Project</th><th>Category</th></tr></thead>
                     <tbody>
                         @foreach($results as $doc)
-                        <tr class="border-b hover:bg-blue-50 cursor-pointer transition" onclick="window.location='{{ route('document.preview', ['doc' => $doc['title']]) }}'">
-                            <td class="py-4 pl-6 font-bold text-gray-900">{{ $doc['title'] }}</td>
+                        <tr class="border-b hover:bg-blue-50 cursor-pointer transition">
+                            <td class="py-4 pl-6 font-bold text-gray-900"><a href="{{ route('document.preview', ['doc' => $doc['title']]) }}" class="block">{{ $doc['title'] }}</a></td>
                             <td class="py-4 font-semibold">{{ $doc['project'] }}</td>
                             <td class="py-4"><span class="bg-gray-100 px-2 py-1 rounded text-xs">{{ $doc['category'] }}</span></td>
                         </tr>
@@ -54,5 +56,20 @@
             </div>
         </div>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const links = document.querySelectorAll('a[href^="{{ url('/') }}"]');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.target === '_blank') return;
+                    e.preventDefault();
+                    const targetUrl = this.href;
+                    document.body.classList.add('fade-out');
+                    setTimeout(() => { window.location.href = targetUrl; }, 200);
+                });
+            });
+        });
+    </script>
 </body>
 </html>

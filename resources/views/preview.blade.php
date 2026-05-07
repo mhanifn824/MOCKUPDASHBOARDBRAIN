@@ -5,18 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Preview: {{ $metadata['title'] }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="https://cdn.skypack.dev/@hotwired/turbo"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #E2E8F0; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+        body { font-family: 'Inter', sans-serif; background-color: #E2E8F0; animation: fadeIn 0.3s ease-in-out; transition: opacity 0.2s ease-in-out;}
+        .turbo-progress-bar { height: 3px; background-color: #005596; }
+        .fade-out { opacity: 0 !important; }
+        @keyframes fadeIn { from { opacity: 0.3; } to { opacity: 1; } }
     </style>
 </head>
-<body class="h-screen flex flex-col overflow-hidden animate-fade-in">
+<body class="h-screen flex flex-col overflow-hidden">
 
     <header class="bg-white border-b border-gray-300 h-16 flex justify-between items-center px-4 shrink-0 z-10 shadow-sm">
         <div class="flex items-center gap-4">
-            <button onclick="history.back()" class="p-2 hover:bg-gray-100 rounded-full text-gray-600 transition">
+            <button onclick="goBack()" class="p-2 hover:bg-gray-100 rounded-full text-gray-600 transition">
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
             </button>
             <div class="flex items-center gap-2">
@@ -90,5 +92,12 @@
             </div>
         </aside>
     </div>
+
+    <script>
+        function goBack() {
+            document.body.classList.add('fade-out');
+            setTimeout(() => { history.back(); }, 200);
+        }
+    </script>
 </body>
 </html>

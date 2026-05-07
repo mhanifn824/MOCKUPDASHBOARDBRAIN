@@ -5,30 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BRAIN AI Assistant</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="https://cdn.skypack.dev/@hotwired/turbo"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #343541; color: #ececf1; }
+        body { font-family: 'Inter', sans-serif; background-color: #343541; color: #ececf1; animation: fadeIn 0.3s ease-in-out; transition: opacity 0.2s ease-in-out; }
         .bg-user { background-color: #343541; }
         .bg-ai { background-color: #444654; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .msg-enter { animation: fadeIn 0.4s ease-out forwards; }
+        .turbo-progress-bar { height: 3px; background-color: #005596; }
+        .fade-out { opacity: 0 !important; }
+        
+        @keyframes fadeIn { from { opacity: 0.3; } to { opacity: 1; } }
+        @keyframes msgFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .msg-enter { animation: msgFadeIn 0.4s ease-out forwards; }
+        
         .typing-dot { animation: typing 1.4s infinite ease-in-out both; }
         .typing-dot:nth-child(1) { animation-delay: -0.32s; }
         .typing-dot:nth-child(2) { animation-delay: -0.16s; }
         @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
-        
-        /* TRANSISI KELUAR MASUK HALAMAN */
-        @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .animate-page { animation: pageFadeIn 0.2s ease-out forwards; }
     </style>
 </head>
-<body class="flex h-screen overflow-hidden animate-page">
+<body class="flex h-screen overflow-hidden">
 
     <aside class="w-64 bg-gray-900 border-r border-gray-700 flex flex-col p-3">
-        <button onclick="window.location='{{ route('dashboard') }}'" class="flex items-center gap-2 border border-gray-600 rounded-lg p-3 hover:bg-gray-800 transition mb-4 text-sm font-semibold">
+        <a href="{{ route('dashboard') }}" class="flex items-center gap-2 border border-gray-600 rounded-lg p-3 hover:bg-gray-800 transition mb-4 text-sm font-semibold">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
             Back to Dashboard
-        </button>
+        </a>
         <div class="text-xs text-gray-500 font-bold mb-2 px-2">Today</div>
         <div class="p-2 text-sm text-gray-300 hover:bg-gray-800 rounded cursor-pointer truncate">Analisa metrik dashboard</div>
         <div class="p-2 text-sm text-gray-300 hover:bg-gray-800 rounded cursor-pointer truncate">Summary HAZOP Tuban</div>
@@ -112,6 +114,20 @@
                 return `Maaf, sebagai AI Mockup, saya dikonfigurasi untuk menjawab konteks metrik dashboard (seperti "Total Dokumen", "Proyek Terbanyak", atau "User Aktif"). Silakan ajukan pertanyaan terkait metrik tersebut.`;
             }
         }
+
+        // Efek fade-out saat pindah halaman
+        document.addEventListener('DOMContentLoaded', () => {
+            const links = document.querySelectorAll('a[href^="{{ url('/') }}"]');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.target === '_blank') return;
+                    e.preventDefault();
+                    const targetUrl = this.href;
+                    document.body.classList.add('fade-out');
+                    setTimeout(() => { window.location.href = targetUrl; }, 200);
+                });
+            });
+        });
     </script>
 </body>
 </html>
