@@ -86,8 +86,8 @@
             </div>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-6 custom-scrollbar">
-            <div class="space-y-6 max-w-[1600px] mx-auto pb-10">
+        <div class="flex-1 overflow-y-auto p-4 custom-scrollbar">
+            <div class="space-y-4 max-w-[1600px] mx-auto pb-10">
                 
                 <div class="grid grid-cols-5 gap-5">
                     <div class="bg-gradient-to-br from-[#9b63b3] to-[#75448c] p-5 rounded-2xl shadow-md relative overflow-hidden flex items-center h-28 hover:shadow-xl transition-shadow">
