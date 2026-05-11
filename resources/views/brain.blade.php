@@ -603,6 +603,7 @@
                 series: [{ name: 'Documents', data: values }],
                 chart: { 
                     type: 'bar', height: 380, 
+                    parentHeightOffset: 0,
                     toolbar: { 
                         show: true, 
                         tools: { download: true },
@@ -626,7 +627,7 @@
                 dataLabels: { enabled: true, textAnchor: 'start', offsetX: 30, style: { fontSize: '12px', colors: ['#1e293b'], fontWeight: 700 }, formatter: val => val.toLocaleString('id-ID') },
                 xaxis: { categories: names, labels: { show: true, formatter: val => (val >= 1000000 ? (val/1000000).toFixed(1)+'m' : (val/1000).toFixed(0)+'k') } },
                 yaxis: { labels: { style: { fontSize: '12px', fontWeight: 600 }, maxWidth: 180 } },
-                grid: { borderColor: '#f1f5f9', strokeDashArray: 3, padding: { right: 80 } },
+                grid: { borderColor: '#f1f5f9', strokeDashArray: 3, padding: { right: 80, bottom: -15 } },
                 legend: { show: false },
                 tooltip: { theme: 'light', custom: function({series, seriesIndex, dataPointIndex, w}) { 
                     let val = series[seriesIndex][dataPointIndex]; let label = w.globals.labels[dataPointIndex]; let color = w.config.colors[dataPointIndex]; 
