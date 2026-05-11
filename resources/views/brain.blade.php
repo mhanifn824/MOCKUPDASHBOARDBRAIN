@@ -244,7 +244,7 @@
                                 <button onclick="backToProjects()" id="btnBackProject" class="hidden text-[10px] font-bold text-gray-700 bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg transition border border-gray-300 cursor-pointer shadow-sm shrink-0 flex items-center gap-1">
                                     <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg> Back
                                 </button>
-                                <button onclick="toggleProjectChart()" id="btnProject" class="text-[10px] font-bold text-blue-700 bg-blue-50 hover:bg-blue-600 hover:text-white px-3 py-1.5 rounded-lg transition border border-blue-200 cursor-pointer shadow-sm shrink-0">View All</button>
+                                <button onclick="toggleProjectChart()" id="btnProject" class="text-[10px] font-bold text-blue-700 bg-blue-50 hover:bg-blue-600 hover:text-white px-3 py-1.5 rounded-lg transition border border-blue-200 cursor-pointer shadow-sm shrink-0">View All Projects</button>
                             </div>
                         </div>
                         <div id="chartProject" class="w-full mt-2 transition-opacity duration-300 flex-grow"></div>
@@ -602,7 +602,7 @@
             return {
                 series: [{ name: 'Documents', data: values }],
                 chart: { 
-                    type: 'bar', height: 480, 
+                    type: 'bar', height: 380, 
                     toolbar: { 
                         show: true, 
                         tools: { download: true },
@@ -640,7 +640,7 @@
             return {
                 series: seriesData,
                 chart: { 
-                    type: 'bar', height: 500, stacked: false, 
+                    type: 'bar', height: 380, stacked: false, 
                     toolbar: { 
                         show: true, 
                         tools: { download: true },
@@ -657,7 +657,7 @@
                 plotOptions: { bar: { horizontal: false, columnWidth: '70%', borderRadius: 2 } },
                 xaxis: { type: 'category', categories: categories, labels: { style: { fontSize: '10px' } } },
                 yaxis: { labels: { formatter: val => (val >= 1000 ? (val/1000).toFixed(0)+'k' : val) } },
-                legend: { position: 'bottom', offsetY: -10 },
+                legend: { position: 'bottom', offsetY: 10 },
                 grid: { borderColor: '#f1f5f9', strokeDashArray: 3 },
                 tooltip: { theme: 'light', shared: true, intersect: false, custom: function({series, seriesIndex, dataPointIndex, w}) { 
                     if (dataPointIndex < 0 || dataPointIndex >= tooltipDates.length) return null; 
