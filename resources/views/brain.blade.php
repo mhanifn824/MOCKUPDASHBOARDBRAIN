@@ -235,7 +235,7 @@
 
                 <div class="grid grid-cols-12 gap-5 mt-4">
                     <div class="col-span-12 lg:col-span-5 bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col chart-wrapper relative">
-                        <div class="mb-3 flex justify-between items-start">
+                        <div class="mb-3 flex justify-between items-center">
                             <div>
                                 <h4 class="font-black text-gray-900 text-base" id="projectChartTitle">Total Document per Project <span class="text-blue-600 ml-1 font-bold">({{ $filterProject == 'ALL' ? 'All Projects' : $filterProject }} <span class="mx-1 text-gray-300">|</span> <span id="timeTitleLabel">{{ $dynamicChartTitle }}</span>)</span></h4>
                                 <p class="text-xs text-gray-500 mt-1 font-medium" id="projectChartSubtitle"> <span class="text-blue-500 font-bold inline-block ml-1">💡 Click a bar to drill-down!</span></p>
