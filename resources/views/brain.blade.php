@@ -251,14 +251,14 @@
                     </div>
 
                     <div class="col-span-12 lg:col-span-7 bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col chart-wrapper relative">
-                        <div class="mb-3 flex justify-between items-start shrink-0">
+                        <div class="mb-6 flex justify-between items-start shrink-0">
                             <div>
                                 <h4 class="font-black text-gray-900 text-base">Document Per Month<span class="text-orange-600 ml-1 font-bold">({{ $filterProject == 'ALL' ? 'All Projects' : $filterProject }} <span class="mx-1 text-gray-300">|</span> <span id="timeTrendTitleLabel">{{ $dynamicChartTitle }}</span>)</span></h4>
                                 <p class="text-xs text-gray-500 mt-1 font-medium"></p>
                             </div>
                             <button onclick="toggleTrendChart()" id="btnTrend" class="text-[10px] font-bold text-blue-700 bg-blue-50 hover:bg-blue-600 hover:text-white px-3 py-1.5 rounded-lg transition border border-blue-200 cursor-pointer shadow-sm shrink-0">View All Projects</button>
                         </div>
-                        <div id="trendChartWrapper" class="w-full overflow-x-auto custom-scrollbar pb-2 mt-2 flex-grow">
+                        <div id="trendChartWrapper" class="w-full overflow-x-auto custom-scrollbar pb-2 mt-4 flex-grow">
                             <div id="chartTrend" class="w-full transition-opacity duration-300"></div>
                         </div>
                     </div>
@@ -660,13 +660,24 @@
                 yaxis: { labels: { formatter: val => (val >= 1000 ? (val/1000).toFixed(0)+'k' : val) } },
                 legend: { position: 'bottom', offsetY: 10 },
                 grid: { borderColor: '#f1f5f9', strokeDashArray: 3 },
-                tooltip: { theme: 'light', shared: true, intersect: false, custom: function({series, seriesIndex, dataPointIndex, w}) { 
+               tooltip: { theme: 'light', shared: true, intersect: false, custom: function({series, seriesIndex, dataPointIndex, w}) { 
                     if (dataPointIndex < 0 || dataPointIndex >= tooltipDates.length) return null; 
                     let totalVal = 0; let dailyData = [];
                     w.config.series.forEach((s, i) => { if(s.data && s.data[dataPointIndex] > 0) { totalVal += s.data[dataPointIndex]; dailyData.push({ name: s.name, val: s.data[dataPointIndex], color: w.config.colors[i] }); }});
                     dailyData.sort((a, b) => b.val - a.val); 
-                    let list = ""; dailyData.forEach(item => { list += `<div class="flex justify-between items-center mb-1.5 text-xs"><div class="flex items-center gap-2 overflow-hidden w-[240px]"><span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color: ${item.color}"></span><span class="text-gray-700 truncate font-medium">${item.name}</span></div><span class="font-bold text-gray-800 text-xs">${item.val.toLocaleString('id-ID')}</span></div>`; }); 
-                    return `<div class="bg-white/95 backdrop-blur-sm border border-gray-300 shadow-xl rounded-lg p-4 min-w-[320px]"><div class="text-[10px] text-gray-400 font-bold uppercase mb-3 pb-2 border-b border-gray-100 flex justify-between items-center"><span>Time Period</span><span class="text-gray-800 font-bold">📅 ${tooltipDates[dataPointIndex]}</span></div><div class="mb-3 max-h-[260px] overflow-y-auto custom-scrollbar pr-2">${list}</div><div class="border-t border-gray-200 pt-2 flex justify-between items-center"><span class="text-[10px] text-gray-500 uppercase font-bold">Total Aggregated</span><span class="text-xl font-black text-slate-800">${totalVal.toLocaleString('id-ID')}</span></div></div>`; 
+                    
+                    let displayData = dailyData;
+                    if (dailyData.length > 7) {
+                        displayData = dailyData.slice(0, 7);
+                        let othersVal = dailyData.slice(7).reduce((sum, item) => sum + item.val, 0);
+                        displayData.push({ name: `Others (${dailyData.length - 7} Projects)`, val: othersVal, color: '#CBD5E1' });
+                    }
+
+                    let list = ""; 
+                   
+                    displayData.forEach(item => { list += `<div class="flex justify-between items-center mb-1.5 text-xs"><div class="flex items-center gap-2 overflow-hidden w-[240px]"><span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color: ${item.color}"></span><span class="text-gray-700 truncate font-medium">${item.name}</span></div><span class="font-bold text-gray-800 text-xs">${item.val.toLocaleString('id-ID')}</span></div>`; }); 
+                    
+                    return `<div class="bg-white/95 backdrop-blur-sm border border-gray-300 shadow-xl rounded-lg p-4 min-w-[320px]"><div class="text-[10px] text-gray-400 font-bold uppercase mb-3 pb-2 border-b border-gray-100 flex justify-between items-center"><span>Time Period</span><span class="text-gray-800 font-bold">📅 ${tooltipDates[dataPointIndex]}</span></div><div class="mb-3">${list}</div><div class="border-t border-gray-200 pt-2 flex justify-between items-center"><span class="text-[10px] text-gray-500 uppercase font-bold">Total Aggregated</span><span class="text-xl font-black text-slate-800">${totalVal.toLocaleString('id-ID')}</span></div></div>`; 
                 } }
             };
         };
