@@ -604,7 +604,7 @@
                 chart: { 
                     type: 'bar', height: 480, 
                     toolbar: { 
-                        show: true, // <-- Diubah menjadi true
+                        show: true, 
                         tools: { download: true },
                         export: {
                             csv: { filename: 'Total_Document_per_Project' },
@@ -640,9 +640,9 @@
             return {
                 series: seriesData,
                 chart: { 
-                    type: 'bar', height: 480, stacked: false, 
+                    type: 'bar', height: 500, stacked: false, 
                     toolbar: { 
-                        show: true, // <-- Diubah menjadi true
+                        show: true, 
                         tools: { download: true },
                         export: {
                             csv: { filename: 'Document_Upload_Trend' },
@@ -791,7 +791,7 @@
             { doc: 'HAZOP Balongan Phase 1', loc: 'Module: Smart Search', type: 'search' },
             { doc: 'Kontrak EPC Tuban', loc: 'Module: Smart Search', type: 'search' },
             { doc: 'Project Dashboard PIPMS', loc: 'Module: Project Dashboard', type: 'project_dashboard' },
-            { doc: 'Executive Document Dashboard', loc: 'Module: Document Inventory', type: 'doc_dashboard' }
+            { doc: 'Document Dashboard', loc: 'Module: Document Inventory', type: 'doc_dashboard' }
         ];
 
         function generateRandomLog(isHistorical = false) {
