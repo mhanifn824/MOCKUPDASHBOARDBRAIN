@@ -86,8 +86,8 @@
             </div>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-4 custom-scrollbar">
-            <div class="space-y-4 max-w-[1600px] mx-auto pb-10">
+        <div class="flex-1 overflow-y-auto p-6 custom-scrollbar">
+            <div class="space-y-6 max-w-[1600px] mx-auto pb-10">
                 
                 <div class="grid grid-cols-5 gap-5">
                     <div class="bg-gradient-to-br from-[#9b63b3] to-[#75448c] p-5 rounded-2xl shadow-md relative overflow-hidden flex items-center h-28 hover:shadow-xl transition-shadow">
@@ -114,7 +114,7 @@
                         </div>
                         <div class="relative z-10 flex-grow text-right text-white">
                             <h3 class="text-3xl font-black leading-none tracking-tight">{{ number_format($kpiData['document_fungsi']) }}</h3>
-                            <p class="text-[11px] font-bold tracking-widest mt-1 text-white/90 uppercase">Document Funsgi</p>
+                            <p class="text-[11px] font-bold tracking-widest mt-1 text-white/90 uppercase">Document Fungsi</p>
                         </div>
                     </div>
                     <div class="bg-gradient-to-br from-[#a5c6c6] to-[#7ea4a4] p-5 rounded-2xl shadow-md relative overflow-hidden flex items-center h-28 hover:shadow-xl transition-shadow">
@@ -207,17 +207,17 @@
                     </div>
                 </div>
 
-                <form action="{{ route('dashboard') }}" method="GET" id="filterForm" class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex flex-wrap sm:flex-nowrap gap-4 items-end mb-2 mt-2">
+                <form action="{{ route('dashboard') }}" method="GET" class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex flex-wrap sm:flex-nowrap gap-4 items-end mb-2 mt-2">
                     <div class="flex-grow">
                         <label class="block text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-wide">Project Name</label>
-                        <select name="project" id="projectFilter" onchange="submitFilter()" class="w-full bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-lg focus:ring-blue-500 block p-2 outline-none cursor-pointer">
+                        <select name="project" id="projectFilter" onchange="this.form.submit()" class="w-full bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-lg focus:ring-blue-500 block p-2 outline-none cursor-pointer">
                             <option value="ALL">All Projects</option>
                             @foreach($projectsData as $p) <option value="{{ $p['name'] }}" {{ $filterProject == $p['name'] ? 'selected' : '' }}>{{ $p['name'] }}</option> @endforeach
                         </select>
                     </div>
                     <div class="w-40">
                         <label class="block text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-wide">Year / Period</label>
-                        <select name="year" id="yearFilter" onchange="submitFilter()" class="w-full bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-lg focus:ring-blue-500 block p-2 outline-none cursor-pointer">
+                        <select name="year" id="yearFilter" onchange="this.form.submit()" class="w-full bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-lg focus:ring-blue-500 block p-2 outline-none cursor-pointer">
                             <option value="CURRENT" {{ $filterYear == 'CURRENT' ? 'selected' : '' }}>Current (YTD)</option>
                             <option value="ALL" {{ $filterYear == 'ALL' ? 'selected' : '' }}>All Years</option>
                             <option value="2026" {{ $filterYear == '2026' ? 'selected' : '' }}>2026</option>
@@ -226,7 +226,7 @@
                     </div>
                     <div class="w-40">
                         <label class="block text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-wide">Month</label>
-                        <select name="month" id="monthFilter" onchange="submitFilter()" class="w-full bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-lg focus:ring-blue-500 block p-2 outline-none cursor-pointer">
+                        <select name="month" id="monthFilter" onchange="this.form.submit()" class="w-full bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-lg focus:ring-blue-500 block p-2 outline-none cursor-pointer">
                             <option value="ALL" {{ $filterMonth == 'ALL' ? 'selected' : '' }}>All Months</option>
                             @for($m=1; $m<=12; $m++) <option value="{{ $m }}" {{ $filterMonth == $m ? 'selected' : '' }}>{{ date('F', mktime(0, 0, 0, $m, 10)) }}</option> @endfor
                         </select>
@@ -235,10 +235,10 @@
 
                 <div class="grid grid-cols-12 gap-5 mt-4">
                     <div class="col-span-12 lg:col-span-5 bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col chart-wrapper relative">
-                        <div class="mb-3 flex justify-between items-center">
+                        <div class="mb-3 flex justify-between items-start">
                             <div>
-                                <h4 class="font-black text-gray-900 text-base" id="projectChartTitle">Total Document per Project <span class="text-blue-600 ml-1 font-bold">({{ $filterProject == 'ALL' ? 'All Projects' : $filterProject }} <span class="mx-1 text-gray-300">|</span> <span id="timeTitleLabel">{{ $dynamicChartTitle }}</span>)</span></h4>
-                                <p class="text-xs text-gray-500 mt-1 font-medium" id="projectChartSubtitle"> <span class="text-blue-500 font-bold inline-block ml-1">💡 Click a bar to drill-down!</span></p>
+                                <h4 class="font-black text-gray-900 text-base" id="projectChartTitle">Document per Project <span class="text-blue-600 ml-1 font-bold">({{ $filterProject == 'ALL' ? 'All Projects' : $filterProject }} <span class="mx-1 text-gray-300">|</span> <span id="timeTitleLabel">{{ $dynamicChartTitle }}</span>)</span></h4>
+                                <p class="text-xs text-gray-500 mt-1 font-medium" id="projectChartSubtitle">Total volume based on selected period. <span class="text-blue-500 font-bold inline-block ml-1">💡 Click a bar to drill-down!</span></p>
                             </div>
                             <div class="flex items-center gap-2">
                                 <button onclick="backToProjects()" id="btnBackProject" class="hidden text-[10px] font-bold text-gray-700 bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg transition border border-gray-300 cursor-pointer shadow-sm shrink-0 flex items-center gap-1">
@@ -251,20 +251,20 @@
                     </div>
 
                     <div class="col-span-12 lg:col-span-7 bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col chart-wrapper relative">
-                        <div class="mb-6 flex justify-between items-start shrink-0">
+                        <div class="mb-3 flex justify-between items-start shrink-0">
                             <div>
-                                <h4 class="font-black text-gray-900 text-base">Document Per Month<span class="text-orange-600 ml-1 font-bold">({{ $filterProject == 'ALL' ? 'All Projects' : $filterProject }} <span class="mx-1 text-gray-300">|</span> <span id="timeTrendTitleLabel">{{ $dynamicChartTitle }}</span>)</span></h4>
+                                <h4 class="font-black text-gray-900 text-base">Document per Month<span class="text-orange-600 ml-1 font-bold">({{ $filterProject == 'ALL' ? 'All Projects' : $filterProject }} <span class="mx-1 text-gray-300">|</span> <span id="timeTrendTitleLabel">{{ $dynamicChartTitle }}</span>)</span></h4>
                                 <p class="text-xs text-gray-500 mt-1 font-medium"></p>
                             </div>
                             <button onclick="toggleTrendChart()" id="btnTrend" class="text-[10px] font-bold text-blue-700 bg-blue-50 hover:bg-blue-600 hover:text-white px-3 py-1.5 rounded-lg transition border border-blue-200 cursor-pointer shadow-sm shrink-0">View All Projects</button>
                         </div>
-                        <div id="trendChartWrapper" class="w-full overflow-x-auto custom-scrollbar pb-2 mt-4 flex-grow">
+                        <div id="trendChartWrapper" class="w-full overflow-x-auto custom-scrollbar pb-2 mt-2 flex-grow">
                             <div id="chartTrend" class="w-full transition-opacity duration-300"></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-8 mb-4">
+               <div class="mt-8 mb-4">
                     <h4 class="font-black text-gray-900 text-base flex items-center gap-2">
                         Project Lifecycle Documents
                         <span class="text-blue-700 ml-1 font-bold text-s bg-blue-50 px-2 py-0.5 rounded-lg border border-blue-200 shadow-sm">
@@ -408,7 +408,7 @@
         </div>
     </main>
 
-    <div id="fullLogModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden justify-center items-center transition-opacity duration-300 opacity-0 p-4">
+    <div id="fullLogModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden flex justify-center items-center transition-opacity duration-300 opacity-0 p-4">
         <div id="fullLogContent" class="bg-white w-full max-w-6xl rounded-2xl shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 h-[90vh]">
             <div class="px-6 py-5 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t-2xl">
                 <div>
@@ -442,7 +442,7 @@
         </div>
     </div>
 
-    <div id="phaseModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden justify-center items-center transition-opacity duration-300 opacity-0 p-4">
+    <div id="phaseModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden flex justify-center items-center transition-opacity duration-300 opacity-0 p-4">
         <div id="phaseModalContent" class="bg-white w-full max-w-5xl rounded-2xl shadow-2xl flex flex-col transform scale-95 transition-transform duration-300 h-[85vh]">
             <div class="px-6 py-5 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t-2xl shrink-0">
                 <div class="flex items-center gap-4">
@@ -476,10 +476,16 @@
 
 
     <script>
+        // ========================================================
+        // 1. TRANSISI CEPAT UNTUK FILTER (TIDAK BERKEDIP)
+        // ========================================================
         function submitFilter() {
-            document.getElementById('filterForm').submit();
+            document.getElementById('filterForm').submit(); 
         }
 
+        // ========================================================
+        // TAB LOGIC & HIDE TABLE
+        // ========================================================
         function switchQaTab(tabName) {
             document.querySelectorAll('.qa-tab').forEach(el => { 
                 el.classList.remove('bg-[#168F4A]', 'text-white', 'shadow-md', 'active-tab'); 
@@ -498,40 +504,74 @@
             const header = document.getElementById('quickAccessHeader');
             const text = document.getElementById('qaToggleText');
             const icon = document.getElementById('qaToggleIcon');
+            
             if (content.classList.contains('hidden')) { 
-                content.classList.remove('hidden'); header.classList.remove('hidden');
-                text.innerText = "Hide table"; icon.classList.add('rotate-180'); 
+                content.classList.remove('hidden'); 
+                header.classList.remove('hidden');
+                text.innerText = "Hide table"; 
+                icon.classList.add('rotate-180'); 
             } else { 
-                content.classList.add('hidden'); header.classList.add('hidden');
-                text.innerText = "Show table"; icon.classList.remove('rotate-180'); 
+                content.classList.add('hidden'); 
+                header.classList.add('hidden');
+                text.innerText = "Show table"; 
+                icon.classList.remove('rotate-180'); 
             }
         }
 
+        // ========================================================
+        // MODAL/OVERLAY LOGIC (Full Log & Phase Modal)
+        // ========================================================
         let fullLogDataArray = []; 
+
         function openFullLogModal() {
             const m = document.getElementById('fullLogModal'), c = document.getElementById('fullLogContent'), tbody = document.getElementById('fullLogTableBody');
-            tbody.innerHTML = ''; fullLogDataArray = [];
+            tbody.innerHTML = '';
+            fullLogDataArray = [];
+            
             for(let i=0; i<30; i++) {
-                const log = generateRandomLog(true); fullLogDataArray.push(log);
-                tbody.innerHTML += `<tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors"><td class="py-3 pl-6 flex items-center gap-3"><div class="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-black border border-gray-200 shadow-sm ${log.avatar_color}">${log.initial}</div><span class="font-bold text-gray-800 text-xs">${log.user}</span></td><td class="py-3"><span class="px-2.5 py-1 rounded-lg text-[10px] font-bold border flex items-center gap-1 w-fit ${log.action_color}">${log.action_label}</span></td><td class="py-3"><div class="font-bold text-gray-900 text-xs truncate max-w-[400px]">${log.document}</div><div class="text-[9px] text-gray-500 mt-0.5 font-semibold">${log.location}</div></td><td class="py-3 text-right pr-6 text-gray-500 text-xs font-medium">${log.time}</td></tr>`;
+                const log = generateRandomLog(true); 
+                fullLogDataArray.push(log);
+                tbody.innerHTML += `
+                    <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                        <td class="py-3 pl-6 flex items-center gap-3"><div class="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-black border border-gray-200 shadow-sm ${log.avatar_color}">${log.initial}</div><span class="font-bold text-gray-800 text-xs">${log.user}</span></td>
+                        <td class="py-3"><span class="px-2.5 py-1 rounded-lg text-[10px] font-bold border flex items-center gap-1 w-fit ${log.action_color}">${log.action_label}</span></td>
+                        <td class="py-3"><div class="font-bold text-gray-900 text-xs truncate max-w-[400px]">${log.document}</div><div class="text-[9px] text-gray-500 mt-0.5 font-semibold">${log.location}</div></td>
+                        <td class="py-3 text-right pr-6 text-gray-500 text-xs font-medium">${log.time}</td>
+                    </tr>
+                `;
             }
-            m.classList.remove('hidden'); m.classList.add('flex'); void m.offsetWidth; m.classList.remove('opacity-0'); c.classList.remove('scale-95');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+            void m.offsetWidth;
+            m.classList.remove('opacity-0');
+            c.classList.remove('scale-95');
         }
         
         function closeFullLogModal() { 
             const m = document.getElementById('fullLogModal'), c = document.getElementById('fullLogContent'); 
-            m.classList.add('opacity-0'); c.classList.add('scale-95'); 
-            setTimeout(() => { m.classList.remove('flex'); m.classList.add('hidden'); }, 300); 
+            m.classList.add('opacity-0');
+            c.classList.add('scale-95'); 
+            setTimeout(() => { 
+                m.classList.remove('flex');
+                m.classList.add('hidden'); 
+            }, 300); 
         }
 
         function exportToExcel() {
             if(fullLogDataArray.length === 0) return;
             let csvContent = "data:text/csv;charset=utf-8,User,Action,Document/Target,Location/Module,Timestamp\n";
             fullLogDataArray.forEach(function(row) {
-                csvContent += `"${row.user}","${row.action_label}","${row.document.replace(/"/g, '""')}","${row.location}","${row.time}"\n`;
+                let user = `"${row.user}"`;
+                let action = `"${row.action_label}"`;
+                let doc = `"${row.document.replace(/"/g, '""')}"`;
+                let loc = `"${row.location}"`;
+                let time = `"${row.time}"`;
+                csvContent += `${user},${action},${doc},${loc},${time}\n`;
             });
             var encodedUri = encodeURI(csvContent);
-            var link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", "BRAIN_Audit_Log_30Days.csv");
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "BRAIN_Audit_Log_30Days.csv");
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
         
@@ -540,50 +580,83 @@
             let csvContent = "data:text/csv;charset=utf-8,Date,Total Queries,Docs Summarized\n";
             for(let i=0; i<30; i++) {
                 let d = new Date(); d.setDate(d.getDate() - i);
-                csvContent += `${d.toLocaleDateString('en-GB')},${Math.floor(Math.random()*50 + 10)},${Math.floor(Math.random()*20 + 5)}\n`;
+                let dateStr = d.toLocaleDateString('en-GB');
+                csvContent += `${dateStr},${Math.floor(Math.random()*50 + 10)},${Math.floor(Math.random()*20 + 5)}\n`;
             }
             var encodedUri = encodeURI(csvContent);
-            var link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", "AI_Impact_Last_30Days.csv");
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "AI_Impact_Last_30Days.csv");
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
 
         function exportTrendingData() {
             let csvContent = "data:text/csv;charset=utf-8,Keyword,Search Volume\n";
-            ['HAZOP Balongan Phase 1', 'Kontrak EPC Tuban', 'P&ID Cilacap Rev A', 'Drawing Isometric Area 5', 'Budget Plan Q2 2026'].forEach(kw => { csvContent += `"${kw}",${Math.floor(Math.random()*150 + 50)}\n`; });
+            const kws = ['HAZOP Balongan Phase 1', 'Kontrak EPC Tuban', 'P&ID Cilacap Rev A', 'Drawing Isometric Area 5', 'Budget Plan Q2 2026', 'Risk Assessment Dumai'];
+            kws.forEach(kw => { csvContent += `"${kw}",${Math.floor(Math.random()*150 + 50)}\n`; });
             var encodedUri = encodeURI(csvContent);
-            var link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", "Trending_Searches.csv");
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Trending_Searches_Last_30Days.csv");
             document.body.appendChild(link); link.click(); document.body.removeChild(link);
         }
 
-        const enterpriseKeywords = ['HAZOP Balongan Phase 1', 'Kontrak EPC Tuban', 'P&ID Cilacap Rev A', 'Drawing Isometric Area 5', 'Budget Plan Q2 2026', 'Risk Assessment Dumai', 'Vendor List Approved', 'Minutes of Meeting Kickoff', 'Environmental Screening', 'Process Flow Diagram'];
+        // ========================================================
+        // LIVE SIMULATION TRENDING SEARCHES
+        // ========================================================
+        const enterpriseKeywords = [
+            'HAZOP Balongan Phase 1', 'Kontrak EPC Tuban', 'P&ID Cilacap Rev A',
+            'Drawing Isometric Area 5', 'Budget Plan Q2 2026', 'Risk Assessment Dumai',
+            'Vendor List Approved', 'Minutes of Meeting Kickoff', 'Environmental Screening', 'Process Flow Diagram'
+        ];
+
         function updateTrendingSearches() {
             const container = document.getElementById('trending-searches-container');
             if (!container) return;
+
             const shuffled = [...enterpriseKeywords].sort(() => 0.5 - Math.random());
             const selected = shuffled.slice(0, 3);
+
             container.style.opacity = '0.5';
+
             setTimeout(() => {
                 container.innerHTML = '';
                 selected.forEach(keyword => {
                     const div = document.createElement('div');
                     div.onclick = () => window.location.href = `{{ route('smart.search') }}?q=${encodeURIComponent(keyword)}`;
-                    div.className = 'px-3 py-2 bg-gray-50 border border-gray-200 text-gray-700 text-xs font-bold rounded-lg truncate hover:bg-orange-50 hover:text-orange-700 hover:border-orange-300 transition-all duration-500 cursor-pointer block shadow-sm';
-                    div.innerText = keyword; container.appendChild(div);
+                    div.className = 'trending-item px-3 py-2 bg-gray-50 border border-gray-200 text-gray-700 text-xs font-bold rounded-lg truncate hover:bg-orange-50 hover:text-orange-700 hover:border-orange-300 transition-all duration-500 cursor-pointer block shadow-sm';
+                    div.innerText = keyword;
+                    container.appendChild(div);
                 });
                 container.style.opacity = '1';
             }, 300); 
         }
+
         setInterval(updateTrendingSearches, 4500);
 
-        const topProjectNames = @json($barNames); const topProjectValues = @json($barValues); const topProjectColors = @json($barColors);
-        const fullProjectNames = @json($fullBarNames); const fullProjectValues = @json($fullBarValues); const fullProjectColors = @json($fullBarColors);
-        const waveSeries = @json($waveSeries); const waveColors = @json($waveColors);
-        const fullWaveSeries = @json($fullWaveSeries); const fullWaveColors = @json($fullWaveColors);
-        const chartCategories = @json($chartCategories); const tooltipDates = @json($chartTooltipDates); 
+        // ========================================================
+        // CHARTS & DATA LOGIC (APEXCHARTS)
+        // ========================================================
+        const topProjectNames = @json($barNames); 
+        const topProjectValues = @json($barValues);
+        const topProjectColors = @json($barColors);
+        const fullProjectNames = @json($fullBarNames);
+        const fullProjectValues = @json($fullBarValues);
+        const fullProjectColors = @json($fullBarColors);
+        
+        const waveSeries = @json($waveSeries);
+        const waveColors = @json($waveColors);
+        const fullWaveSeries = @json($fullWaveSeries);
+        const fullWaveColors = @json($fullWaveColors);
+
+        const chartCategories = @json($chartCategories);
+        const tooltipDates = @json($chartTooltipDates); 
+        
         const masterProjectData = fullProjectNames.map((name, index) => ({ name: name, value: fullProjectValues[index], color: fullProjectColors[index] }));
         
         const disciplineData = @json($disciplineData ?? []);
         let isDrillDownMode = false;
+
         let projectChartInstance = null; let trendChartInstance = null;
         let isProjectExpanded = false; let isTrendExpanded = false;
 
@@ -591,29 +664,24 @@
             const wrapper = document.getElementById('trendChartWrapper');
             const containerWidth = wrapper.clientWidth || 800; 
             let finalWidth = containerWidth;
+            
             if (numCategories > 6) {
                 let widthPerCategory = containerWidth / 6;
-                finalWidth = Math.max(widthPerCategory * numCategories, numCategories * ((numSeries * 18) + 30));
+                finalWidth = widthPerCategory * numCategories;
+                
+                let absoluteMinWidth = numCategories * ((numSeries * 18) + 30);
+                if (finalWidth < absoluteMinWidth) {
+                    finalWidth = absoluteMinWidth;
+                }
             }
             document.getElementById('chartTrend').style.minWidth = finalWidth + 'px';
         }
 
-       const getProjectOptions = (names, values, colors) => {
+        const getProjectOptions = (names, values, colors) => {
             return {
                 series: [{ name: 'Documents', data: values }],
                 chart: { 
-                    type: 'bar', height: 380, 
-                    parentHeightOffset: 0,
-                    toolbar: { 
-                        show: true, 
-                        tools: { download: true },
-                        export: {
-                            csv: { filename: 'Total_Document_per_Project' },
-                            svg: { filename: 'Chart_Document_per_Project' },
-                            png: { filename: 'Chart_Document_per_Project' }
-                        }
-                    }, 
-                    fontFamily: 'Inter, sans-serif',
+                    type: 'bar', height: 380,parentHeightOffset: 0, toolbar: { show: true },tools: { download: true },   fontFamily: 'Inter, sans-serif',
                     events: {
                         dataPointSelection: function(event, chartContext, config) {
                             if(isDrillDownMode) return;
@@ -622,18 +690,23 @@
                         }
                     }
                 },
-                plotOptions: { bar: { borderRadius: 2, horizontal: true, barHeight: '70%', distributed: true, dataLabels: { position: 'top' }, cursor: 'pointer' } },
+                plotOptions: { bar: { borderRadius: 2, horizontal: true, barHeight: '70%', distributed: true, dataLabels: { position: 'top' } } },
                 colors: colors,
-                dataLabels: { enabled: true, textAnchor: 'start', offsetX: 30, style: { fontSize: '12px', colors: ['#1e293b'], fontWeight: 700 }, formatter: val => val.toLocaleString('id-ID') },
-                xaxis: { categories: names, labels: { show: true, formatter: val => (val >= 1000000 ? (val/1000000).toFixed(1)+'m' : (val/1000).toFixed(0)+'k') } },
-                yaxis: { labels: { style: { fontSize: '12px', fontWeight: 600 }, maxWidth: 180 } },
-                grid: { borderColor: '#f1f5f9', strokeDashArray: 3, padding: { right: 80, bottom: -15 } },
+                dataLabels: { enabled: true, textAnchor: 'start', offsetX: 30, style: { fontSize: '12px', colors: ['#1e293b'], fontWeight: 700, fontFamily: 'Inter, sans-serif' }, formatter: function (val) { return val.toLocaleString('id-ID'); }, dropShadow: { enabled: false } },
+                xaxis: { categories: names, labels: { show: true, formatter: val => (val >= 1000000 ? (val/1000000).toFixed(1)+'m' : (val/1000).toFixed(0)+'k'), style: { fontSize: '10px', colors: ['#94a3b8'] } }, axisBorder: { show: false }, axisTicks: { show: false } },
+                yaxis: { labels: { style: { fontSize: '12px', fontWeight: 600, fontFamily: 'Inter' }, maxWidth: 180 } },
+                grid: { borderColor: '#f1f5f9', strokeDashArray: 3, padding: { bottom: 0, right: 80, left: 10 }, xaxis: { lines: { show: true } }, yaxis: { lines: { show: false } } },
                 legend: { show: false },
-                tooltip: { theme: 'light', custom: function({series, seriesIndex, dataPointIndex, w}) { 
-                    let val = series[seriesIndex][dataPointIndex]; let label = w.globals.labels[dataPointIndex]; let color = w.config.colors[dataPointIndex]; 
-                    let entityLabel = isDrillDownMode ? "Discipline" : "Project Name";
-                    return `<div class="px-4 py-3 bg-white border border-gray-300 shadow-2xl rounded-lg min-w-[200px]"><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">${entityLabel}</div><div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full flex-shrink-0" style="background-color: ${color}"></span><span class="text-xs font-bold text-gray-800 leading-tight">${label}</span></div><div class="border-t border-gray-200 pt-2 flex justify-between items-center"><span class="text-xs text-gray-500 font-semibold">Total Docs</span><span class="text-lg font-black text-slate-800">${val.toLocaleString('id-ID')}</span></div></div>`; 
-                } }
+                tooltip: { 
+                    theme: 'light', fixed: { enabled: false }, 
+                    custom: function({series, seriesIndex, dataPointIndex, w}) { 
+                        let val = series[seriesIndex][dataPointIndex]; 
+                        let label = w.globals.labels[dataPointIndex]; 
+                        let color = w.config.colors[dataPointIndex]; 
+                        let entityLabel = isDrillDownMode ? "Discipline" : "Project Name";
+                        return `<div class="px-4 py-3 bg-white border border-gray-300 shadow-2xl rounded-lg min-w-[200px]"><div class="text-[10px] text-gray-400 font-bold uppercase mb-1">${entityLabel}</div><div class="flex items-center gap-2 mb-3"><span class="w-3 h-3 rounded-full flex-shrink-0" style="background-color: ${color}"></span><span class="text-xs font-bold text-gray-800 leading-tight">${label}</span></div><div class="border-t border-gray-200 pt-2 flex justify-between items-center"><span class="text-xs text-gray-500 font-semibold">Total Docs</span><span class="text-lg font-black text-slate-800">${val.toLocaleString('id-ID')}</span></div></div>`; 
+                    } 
+                }
             };
         };
 
@@ -641,44 +714,51 @@
             return {
                 series: seriesData,
                 chart: { 
-                    type: 'bar', height: 380, stacked: false, 
-                    toolbar: { 
-                        show: true, 
-                        tools: { download: true },
-                        export: {
-                            csv: { filename: 'Document_Upload_Trend' },
-                            svg: { filename: 'Chart_Upload_Trend' },
-                            png: { filename: 'Chart_Upload_Trend' }
-                        }
-                    }, 
-                    fontFamily: 'Inter, sans-serif' 
+                    type: 'bar',
+                    height: 380, 
+                    stacked: false, 
+                    toolbar: { show: true, tools: { download: true } }, 
+                    fontFamily: 'Inter, sans-serif', 
+                    zoom: { enabled: false } 
                 },
                 colors: colors,
+                plotOptions: { bar: { horizontal: false, columnWidth: '70%', borderRadius: 2, dataLabels: { position: 'top' } } },
+                stroke: { show: true, width: 2, colors: ['transparent'] }, 
+                fill: { opacity: 1 }, 
                 dataLabels: { enabled: false },
-                plotOptions: { bar: { horizontal: false, columnWidth: '70%', borderRadius: 2 } },
-                xaxis: { type: 'category', categories: categories, labels: { style: { fontSize: '10px' } } },
-                yaxis: { labels: { formatter: val => (val >= 1000 ? (val/1000).toFixed(0)+'k' : val) } },
-                legend: { position: 'bottom', offsetY: 10 },
-                grid: { borderColor: '#f1f5f9', strokeDashArray: 3 },
-               tooltip: { theme: 'light', shared: true, intersect: false, custom: function({series, seriesIndex, dataPointIndex, w}) { 
-                    if (dataPointIndex < 0 || dataPointIndex >= tooltipDates.length) return null; 
-                    let totalVal = 0; let dailyData = [];
-                    w.config.series.forEach((s, i) => { if(s.data && s.data[dataPointIndex] > 0) { totalVal += s.data[dataPointIndex]; dailyData.push({ name: s.name, val: s.data[dataPointIndex], color: w.config.colors[i] }); }});
-                    dailyData.sort((a, b) => b.val - a.val); 
-                    
-                    let displayData = dailyData;
-                    if (dailyData.length > 7) {
-                        displayData = dailyData.slice(0, 7);
-                        let othersVal = dailyData.slice(7).reduce((sum, item) => sum + item.val, 0);
-                        displayData.push({ name: `Others (${dailyData.length - 7} Projects)`, val: othersVal, color: '#CBD5E1' });
-                    }
+                xaxis: { type: 'category', categories: categories, labels: { style: { fontSize: '10px', fontWeight: 500, colors: '#64748b' } }, axisBorder: { show: false }, axisTicks: { show: false }, tooltip: { enabled: false } },
+                yaxis: { labels: { formatter: val => (val >= 1000 ? (val/1000).toFixed(0)+'k' : val), style: { fontSize: '10px', colors: '#94a3b8' } } },
+                legend: { position: 'bottom', horizontalAlign: 'center', fontSize: '11px', markers: { radius: 10 }, itemMargin: { horizontal: 10, vertical: 5 }, offsetY: -10 },
+                grid: { borderColor: '#f1f5f9', strokeDashArray: 3, padding: { bottom: 30, left: 10, right: 10 } },
+                tooltip: { 
+                    theme: 'light', shared: true, intersect: false, fixed: { enabled: false }, 
+                    custom: function({series, seriesIndex, dataPointIndex, w}) { 
+                        if (dataPointIndex < 0 || dataPointIndex >= tooltipDates.length) return null; 
+                        let fullDateTitle = tooltipDates[dataPointIndex]; 
+                        let totalVal = 0; let dailyData = []; 
+                        w.config.series.forEach((s, i) => { 
+                            if(s.data && s.data[dataPointIndex] > 0) { 
+                                totalVal += s.data[dataPointIndex]; 
+                                dailyData.push({ name: s.name, val: s.data[dataPointIndex], color: w.config.colors[i] }); 
+                            }
+                        }); 
+                        dailyData.sort((a, b) => b.val - a.val); 
+                        
+                        let displayData = dailyData;
+                        if (dailyData.length > 7) {
+                            displayData = dailyData.slice(0, 7);
+                            let othersVal = dailyData.slice(7).reduce((sum, item) => sum + item.val, 0);
+                            displayData.push({ name: `Others (${dailyData.length - 7} Projects)`, val: othersVal, color: '#CBD5E1' });
+                        }
 
-                    let list = ""; 
-                   
-                    displayData.forEach(item => { list += `<div class="flex justify-between items-center mb-1.5 text-xs"><div class="flex items-center gap-2 overflow-hidden w-[240px]"><span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color: ${item.color}"></span><span class="text-gray-700 truncate font-medium">${item.name}</span></div><span class="font-bold text-gray-800 text-xs">${item.val.toLocaleString('id-ID')}</span></div>`; }); 
-                    
-                    return `<div class="bg-white/95 backdrop-blur-sm border border-gray-300 shadow-xl rounded-lg p-4 min-w-[320px]"><div class="text-[10px] text-gray-400 font-bold uppercase mb-3 pb-2 border-b border-gray-100 flex justify-between items-center"><span>Time Period</span><span class="text-gray-800 font-bold">📅 ${tooltipDates[dataPointIndex]}</span></div><div class="mb-3">${list}</div><div class="border-t border-gray-200 pt-2 flex justify-between items-center"><span class="text-[10px] text-gray-500 uppercase font-bold">Total Aggregated</span><span class="text-xl font-black text-slate-800">${totalVal.toLocaleString('id-ID')}</span></div></div>`; 
-                } }
+                        let tooltipList = ""; 
+                        displayData.forEach(item => { 
+                            tooltipList += `<div class="flex justify-between items-center mb-1.5 text-xs"><div class="flex items-center gap-2 overflow-hidden w-[240px]"><span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color: ${item.color}"></span><span class="text-gray-700 truncate leading-tight font-medium" title="${item.name}">${item.name}</span></div><span class="font-bold text-gray-800 text-xs">${item.val.toLocaleString('id-ID')}</span></div>`; 
+                        }); 
+                        
+                        return `<div class="bg-white/95 backdrop-blur-sm border border-gray-300 shadow-xl rounded-lg p-4 min-w-[400px]"><div class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-3 pb-2 border-b border-gray-100 flex justify-between items-center"><span>Time Period</span><span class="text-gray-800 font-bold">📅 ${fullDateTitle}</span></div><div class="mb-3 pr-2">${tooltipList}</div><div class="border-t border-gray-200 pt-2 flex justify-between items-center"><span class="text-[10px] text-gray-500 uppercase font-bold">Total Aggregated</span><span class="text-xl font-black text-slate-800">${totalVal.toLocaleString('id-ID')}</span></div></div>`; 
+                    } 
+                }
             };
         };
 
@@ -693,140 +773,208 @@
             document.getElementById('projectChartSubtitle').innerHTML = `Showing document distribution across engineering disciplines.`;
         }
 
-       function enterDrillDown(projectName) {
-            isDrillDownMode = true; 
-            const dData = disciplineData[projectName];
-            
-            projectChartInstance.updateOptions({
-                series: [{ name: 'Documents', data: dData.map(d => d.val) }],
-                xaxis: { categories: dData.map(d => d.name) }, 
-                colors: dData.map(d => d.color)
-            });
-            
-            document.getElementById('btnProject').classList.add('hidden'); 
-            document.getElementById('btnBackProject').classList.remove('hidden');
-            
-            // Header diganti, sehingga ID "timeTitleLabel" di dalamnya hilang
-            document.getElementById('projectChartTitle').innerHTML = `Discipline Breakdown: <span class="text-blue-600 ml-1 font-bold">${projectName}</span>`;
-            document.getElementById('projectChartSubtitle').innerHTML = `Showing document distribution across engineering disciplines.`;
-        }
-
         function backToProjects() {
-            isDrillDownMode = false; 
-            const proj = document.getElementById('projectFilter').value;
+            isDrillDownMode = false; const proj = document.getElementById('projectFilter').value;
             let pData = isProjectExpanded ? [...masterProjectData] : masterProjectData.slice(0, 10);
-            if (proj !== 'ALL') {
-                pData = masterProjectData.filter(p => p.name === proj);
-                if (pData.length === 0) pData = [masterProjectData[0]];
-            }
-
+            if (proj !== 'ALL') { pData = masterProjectData.filter(p => p.name === proj); if (pData.length === 0) pData = [masterProjectData[0]]; }
             projectChartInstance.updateOptions({
                 series: [{ name: 'Documents', data: pData.map(p => p.value) }],
-                xaxis: { categories: pData.map(p => p.name) }, 
-                colors: pData.map(p => p.color)
+                xaxis: { categories: pData.map(p => p.name) }, colors: pData.map(p => p.color)
             });
+            document.getElementById('btnProject').classList.remove('hidden'); document.getElementById('btnBackProject').classList.add('hidden');
             
-            document.getElementById('btnProject').classList.remove('hidden'); 
-            document.getElementById('btnBackProject').classList.add('hidden');
-            
-           
             const timeLabelElement = document.getElementById('timeTrendTitleLabel');
             const timeLabel = timeLabelElement ? timeLabelElement.innerText : 'Current Period';
             const filterLabel = proj === 'ALL' ? 'All Projects' : proj;
-        
-            document.getElementById('projectChartTitle').innerHTML = `Total Document per Project <span class="text-blue-600 ml-1 font-bold">(${filterLabel} <span class="mx-1 text-gray-300">|</span> <span id="timeTitleLabel">${timeLabel}</span>)</span>`;
-            document.getElementById('projectChartSubtitle').innerHTML = ` <span class="text-blue-500 font-bold inline-block ml-1">💡 Click a bar to drill-down!</span>`;
+            document.getElementById('projectChartTitle').innerHTML = `Document per Project <span class="text-blue-600 ml-1 font-bold">(${filterLabel} <span class="mx-1 text-gray-300">|</span> <span id="timeTitleLabel">${timeLabel}</span>)</span>`;
+            document.getElementById('projectChartSubtitle').innerHTML = `Total volume based on selected period. <span class="text-blue-500 font-bold inline-block ml-1">💡 Click a bar to drill-down!</span>`;
         }
 
+        const initialTrendSeriesCount = @json($waveSeries).length;
+        const initialCategoryCount = chartCategories.length;
+        
         projectChartInstance = new ApexCharts(document.querySelector("#chartProject"), getProjectOptions(topProjectNames, topProjectValues, topProjectColors)); 
         projectChartInstance.render();
-        adjustTrendChartWidth(chartCategories.length, waveSeries.length);
+        
+        adjustTrendChartWidth(initialCategoryCount, initialTrendSeriesCount);
         trendChartInstance = new ApexCharts(document.querySelector("#chartTrend"), getTrendOptions(waveSeries, waveColors, chartCategories)); 
         trendChartInstance.render();
 
         function toggleProjectChart() { 
-            isProjectExpanded = !isProjectExpanded; const btn = document.getElementById('btnProject'); 
-            if (isProjectExpanded) { projectChartInstance.updateOptions(getProjectOptions(fullProjectNames, fullProjectValues, fullProjectColors)); btn.innerText = "Show Top 10"; } 
-            else { projectChartInstance.updateOptions(getProjectOptions(topProjectNames, topProjectValues, topProjectColors)); btn.innerText = "View All Projects"; } 
+            isProjectExpanded = !isProjectExpanded; 
+            const btn = document.getElementById('btnProject'); 
+            if (isProjectExpanded) { 
+                projectChartInstance.updateOptions(getProjectOptions(fullProjectNames, fullProjectValues, fullProjectColors)); 
+                btn.innerText = "Show Top 10"; 
+            } else { 
+                projectChartInstance.updateOptions(getProjectOptions(topProjectNames, topProjectValues, topProjectColors)); 
+                btn.innerText = "View All Projects"; 
+            } 
         }
 
         function toggleTrendChart() { 
-            isTrendExpanded = !isTrendExpanded; const btn = document.getElementById('btnTrend'); 
-            if (isTrendExpanded) { adjustTrendChartWidth(chartCategories.length, fullWaveSeries.length); trendChartInstance.updateOptions({ series: fullWaveSeries, colors: fullWaveColors }); btn.innerText = "Show Top 5"; } 
-            else { adjustTrendChartWidth(chartCategories.length, waveSeries.length); trendChartInstance.updateOptions({ series: waveSeries, colors: waveColors }); btn.innerText = "View All Projects"; } 
+            isTrendExpanded = !isTrendExpanded; 
+            const btn = document.getElementById('btnTrend'); 
+            const currentCategories = trendChartInstance.w.config.xaxis.categories;
+            
+            if (isTrendExpanded) { 
+                adjustTrendChartWidth(currentCategories.length, fullWaveSeries.length);
+                trendChartInstance.updateOptions({ series: fullWaveSeries, colors: fullWaveColors }); 
+                btn.innerText = "Show Top 5"; 
+            } else { 
+                adjustTrendChartWidth(currentCategories.length, waveSeries.length);
+                trendChartInstance.updateOptions({ series: waveSeries, colors: waveColors }); 
+                btn.innerText = "View All Trends"; 
+            } 
         }
 
+        // PHASE MODAL
+        const phaseDocumentsData = @json($phaseDocuments ?? []);
         function openPhaseModal(phaseKey) {
-            const m = document.getElementById('phaseModal'), c = document.getElementById('phaseModalContent'), tbody = document.getElementById('phaseModalTableBody');
-            document.getElementById('phaseModalSubtitle').innerText = `Showing records for ${phaseKey}`; tbody.innerHTML = '';
-            const phaseDocumentsData = @json($phaseDocuments ?? []);
+            const m = document.getElementById('phaseModal'), c = document.getElementById('phaseModalContent'), s = document.getElementById('phaseModalSubtitle'), tbody = document.getElementById('phaseModalTableBody');
+            s.innerText = `Showing records for ${phaseKey}`;
+            tbody.innerHTML = '';
             if(phaseDocumentsData[phaseKey]) {
                 phaseDocumentsData[phaseKey].forEach(doc => {
-                    let typeBadge = `<div class="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 font-black text-[8px] shrink-0 border border-blue-200 shadow-sm">${doc.type}</div>`;
-                    tbody.innerHTML += `<tr onclick="window.location.href='{{ route('document.preview') }}?doc=' + encodeURIComponent('${doc.doc_name}')" class="border-b border-gray-100 hover:bg-green-50 transition-colors cursor-pointer group"><td class="py-3 pl-6 flex items-center gap-3">${typeBadge}<div><div class="font-bold text-gray-900 text-xs group-hover:text-[#168F4A] transition-colors">${doc.doc_name}</div><div class="text-[9px] text-gray-500 font-bold mt-0.5">${doc.size}</div></div></td><td class="py-3 font-bold text-gray-700 text-xs"><span class="bg-gray-100 px-2 py-1 rounded border border-gray-200">${doc.project}</span></td><td class="py-3 text-gray-600 font-medium text-xs">${doc.uploader}</td><td class="py-3 text-right pr-6 text-gray-500 text-xs">${doc.date}</td></tr>`;
+                    let typeBadge = doc.type === 'PDF' ? `<div class="w-7 h-7 bg-red-100 rounded-lg flex items-center justify-center text-red-600 font-black text-[8px] shrink-0 border border-red-200 shadow-sm">PDF</div>` : (['word', 'docx'].includes(doc.type.toLowerCase()) ? `<div class="w-7 h-7 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 font-black text-[8px] shrink-0 border border-blue-200 shadow-sm">DOC</div>` : `<div class="w-7 h-7 bg-green-100 rounded-lg flex items-center justify-center text-green-600 font-black text-[8px] shrink-0 border border-green-200 shadow-sm">XLS</div>`);
+                    tbody.innerHTML += `
+                        <tr onclick="window.location.href='{{ route('document.preview') }}?doc=' + encodeURIComponent('${doc.doc_name}')" class="border-b border-gray-100 hover:bg-green-50 transition-colors cursor-pointer group">
+                            <td class="py-3 pl-6 flex items-center gap-3">${typeBadge}<div><div class="font-bold text-gray-900 text-xs group-hover:text-[#168F4A] transition-colors">${doc.doc_name}</div><div class="text-[9px] text-gray-500 font-bold mt-0.5">${doc.size}</div></div></td>
+                            <td class="py-3 font-bold text-gray-700 text-xs"><span class="bg-gray-100 px-2 py-1 rounded border border-gray-200">${doc.project}</span></td>
+                            <td class="py-3 text-gray-600 font-medium text-xs">${doc.uploader}</td>
+                            <td class="py-3 text-right pr-6 text-gray-500 text-xs">${doc.date}</td>
+                        </tr>
+                    `;
                 });
-            } else { tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 text-gray-500 text-xs">No records available yet.</td></tr>`; }
-            m.classList.remove('hidden'); m.classList.add('flex'); void m.offsetWidth; m.classList.remove('opacity-0'); c.classList.remove('scale-95');
+            } else { tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 text-gray-500 font-medium text-xs">No records available for this phase yet.</td></tr>`; }
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+            void m.offsetWidth;
+            m.classList.remove('opacity-0');
+            c.classList.remove('scale-95');
         }
-        function closePhaseModal() { const m = document.getElementById('phaseModal'), c = document.getElementById('phaseModalContent'); m.classList.add('opacity-0'); c.classList.add('scale-95'); setTimeout(() => { m.classList.remove('flex'); m.classList.add('hidden'); }, 300); }
+        function closePhaseModal() { 
+            const m = document.getElementById('phaseModal'), c = document.getElementById('phaseModalContent'); 
+            m.classList.add('opacity-0'); 
+            c.classList.add('scale-95'); 
+            setTimeout(() => { 
+                m.classList.remove('flex');
+                m.classList.add('hidden'); 
+            }, 300); 
+        }
 
-       const fakeUsers = [{ name: 'Rizky Ramadhan', initial: 'RR' }, { name: 'Nadia Saphira', initial: 'NS' }, { name: 'Ahmad Fauzi', initial: 'AF' }, { name: 'Dewi Lestari', initial: 'DL' }, { name: 'Bima Sakti', initial: 'BS' }, { name: 'Putri Kusuma', initial: 'PK' }, { name: 'Hendra Gunawan', initial: 'HG' }, { name: 'Andi Wijaya', initial: 'AW' }, { name: 'Siti Nurhaliza', initial: 'SN' }, { name: 'I Putu Borneo', initial: 'IP' }];
-        
-       const fakeActions = [
+        // LIVE LOG SIMULATION
+        const fakeUsers = [
+            // Engineering & Technical
+            { name: 'Rizky Ramadhan', initial: 'RR' }, { name: 'Nadia Saphira', initial: 'NS' }, 
+            { name: 'Ahmad Fauzi', initial: 'AF' }, { name: 'Dewi Lestari', initial: 'DL' }, 
+            { name: 'Bima Sakti', initial: 'BS' }, { name: 'Putri Kusuma', initial: 'PK' },
+            // Management & Admin
+            { name: 'Hendra Gunawan', initial: 'HG' }, { name: 'Andi Wijaya', initial: 'AW' }, 
+            { name: 'Siti Nurhaliza', initial: 'SN' }, { name: 'I Putu Borneo', initial: 'IP' },
+            { name: 'Bagus Prakoso', initial: 'BP' }, { name: 'Rina Melati', initial: 'RM' },
+            { name: 'Kevin Sanjaya', initial: 'KS' }, { name: 'Maya Indah', initial: 'MI' }
+        ];
+
+        const fakeActions = [
+            // Upload & Create (Green/Emerald)
             { label: 'Uploaded Project Doc', color: 'text-green-700 bg-green-50 border-green-200', avatar: 'bg-green-100 text-green-700', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />' },
             { label: 'Uploaded Fungsi Doc', color: 'text-emerald-700 bg-emerald-50 border-emerald-200', avatar: 'bg-emerald-100 text-emerald-700', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />' },
+            { label: 'Created Folder', color: 'text-lime-700 bg-lime-50 border-lime-200', avatar: 'bg-lime-100 text-lime-700', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />' },
+            
+            // AI & Search (Purple/Teal)
             { label: 'Asked AI', color: 'text-purple-700 bg-purple-50 border-purple-200', avatar: 'bg-purple-100 text-purple-700', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />' },
             { label: 'Searched', color: 'text-teal-700 bg-teal-50 border-teal-200', avatar: 'bg-teal-100 text-teal-700', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />' },
+            
+            
+            // Interaction & Management (Gray/Blue)
             { label: 'Previewed', color: 'text-gray-700 bg-gray-100 border-gray-300', avatar: 'bg-gray-200 text-gray-700', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />' },
             { label: 'Updated Metadata', color: 'text-blue-700 bg-blue-50 border-blue-200', avatar: 'bg-blue-100 text-blue-700', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />' },
+            { label: 'Changed Security Level', color: 'text-red-700 bg-red-50 border-red-200', avatar: 'bg-red-100 text-red-700', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />' },
+            
+            // Dashboard Access (Orange/Indigo)
             { label: 'Accessed Project Dashboard', color: 'text-orange-700 bg-orange-50 border-orange-200', avatar: 'bg-orange-100 text-orange-700', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />' },
             { label: 'Viewed Doc Dashboard', color: 'text-indigo-700 bg-indigo-50 border-indigo-200', avatar: 'bg-indigo-100 text-indigo-700', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />' },
-            { label: 'Downloaded', color: 'text-rose-700 bg-rose-50 border-rose-200', avatar: 'bg-rose-100 text-rose-700', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />' }
+            
+            // Download & Export (Yellow/Cyan)
+            { label: 'Downloaded', color: 'text-cyan-700 bg-cyan-50 border-cyan-200', avatar: 'bg-cyan-100 text-cyan-700', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />' },
+            { label: 'Exported Report', color: 'text-yellow-700 bg-yellow-50 border-yellow-200', avatar: 'bg-yellow-100 text-yellow-700', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />' }
         ];
 
         const fakeTargets = [
-            // Target Project
+            // Engineering & Technical Documents (Project_Doc)
             { doc: 'Drawing Isometric Area 2 RevA.pdf', loc: 'Project: RDMP RU V Balikpapan', type: 'project_doc' }, 
-            { doc: 'MoM Weekly Meeting EPC 03.docx', loc: 'Project: GRR Tuban', type: 'project_doc' }, 
             { doc: 'P&ID Cilacap Rev FINAL.pdf', loc: 'Project: RFCC Cilacap', type: 'project_doc' }, 
             { doc: 'As-Built Structure Foundation.pdf', loc: 'Project: New DHT Dumai', type: 'project_doc' },
-            // Target Fungsi
+            { doc: 'Process Flow Diagram Unit 32.pdf', loc: 'Project: Revitalisasi RCC RU VI', type: 'project_doc' },
+            { doc: 'Piping Layout Plan Rev 3.dwg', loc: 'Project: GRR Tuban', type: 'project_doc' },
+            { doc: 'Soil Test Report Area C.pdf', loc: 'Project: New Polypropylene Balongan', type: 'project_doc' },
+            { doc: 'Electrical Single Line Diagram.pdf', loc: 'Project: Green Refinery Plaju', type: 'project_doc' },
+            { doc: 'HAZOP Study Report Phase 2.pdf', loc: 'Project: RDMP RU VI Balongan', type: 'project_doc' },
+            
+            // Management & Admin Documents (Fungsi_Doc / Project_Doc)
+            { doc: 'MoM Weekly Meeting EPC 03.docx', loc: 'Project: GRR Tuban', type: 'project_doc' }, 
+            { doc: 'Project Charter Early Works 1.pdf', loc: 'Project: RDMP RU V Early Works', type: 'project_doc' },
             { doc: 'Budget Plan Q2 2026.xlsx', loc: 'Fungsi: Finance', type: 'fungsi_doc' },
             { doc: 'Vendor List Approved 2026.xlsx', loc: 'Fungsi: Procurement', type: 'fungsi_doc' },
             { doc: 'Board Resolution Q1 2026.pdf', loc: 'Fungsi: Legal', type: 'fungsi_doc' },
             { doc: 'Financial Audit Report.xlsx', loc: 'Fungsi: Audit', type: 'fungsi_doc' },
-            // Target Modul Lainnya
+            { doc: 'HSE Monthly Report KPI.pdf', loc: 'Fungsi: HSSE', type: 'fungsi_doc' },
+            { doc: 'Contract Addendum Vendor X.pdf', loc: 'Fungsi: Legal', type: 'fungsi_doc' },
+
+            // AI Interaction Targets
             { doc: 'Rangkuman dokumen EPC Tuban', loc: 'Module: AI Chatbot', type: 'ai' }, 
             { doc: 'Poin risiko utama proyek RU V', loc: 'Module: AI Chatbot', type: 'ai' },
             { doc: 'Cari pasal penalti keterlambatan', loc: 'Module: AI Chatbot', type: 'ai' }, 
+            { doc: 'Bandingkan spek P&ID Cilacap vs Dumai', loc: 'Module: AI Chatbot', type: 'ai' }, 
+            { doc: 'Extract tabel budget Q2 2026', loc: 'Module: AI Chatbot', type: 'ai' }, 
+
+            // Smart Search Targets
             { doc: 'Valve Specification AND Piping', loc: 'Module: Smart Search', type: 'search' },
             { doc: 'HAZOP Balongan Phase 1', loc: 'Module: Smart Search', type: 'search' },
             { doc: 'Kontrak EPC Tuban', loc: 'Module: Smart Search', type: 'search' },
+            { doc: '"Pump Failure" OR "Compressor"', loc: 'Module: Smart Search', type: 'search' },
+            { doc: 'Minutes of Meeting Kickoff RDMP', loc: 'Module: Smart Search', type: 'search' },
+
+            // Dashboard & UI Navigation Targets
+            { doc: 'Project Portfolio Overview', loc: 'Module: Project Dashboard', type: 'project_dashboard' },
             { doc: 'Project Dashboard PIPMS', loc: 'Module: Project Dashboard', type: 'project_dashboard' },
-            { doc: 'Document Dashboard', loc: 'Module: Document Inventory', type: 'doc_dashboard' }
+            { doc: 'Executive Summary Dashboard', loc: 'Module: Project Dashboard', type: 'project_dashboard' },
+            { doc: 'Document Inventory & Lifecycle', loc: 'Module: Document Dashboard', type: 'doc_dashboard' },
+            { doc: 'Monthly Trending Uploads', loc: 'Module: Document Dashboard', type: 'doc_dashboard' }
         ];
 
-        function generateRandomLog(isHistorical = false) {
+       function generateRandomLog(isHistorical = false) {
             const u = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
             const a = fakeActions[Math.floor(Math.random() * fakeActions.length)];
             let validTargets = [];
             
-            if (a.label === 'Asked AI') validTargets = fakeTargets.filter(t => t.type === 'ai');
-            else if (a.label === 'Searched') validTargets = fakeTargets.filter(t => t.type === 'search');
-            else if (a.label === 'Accessed Project Dashboard') validTargets = fakeTargets.filter(t => t.type === 'project_dashboard');
-            else if (a.label === 'Viewed Doc Dashboard') validTargets = fakeTargets.filter(t => t.type === 'doc_dashboard');
-            else if (a.label === 'Uploaded Project Doc') validTargets = fakeTargets.filter(t => t.type === 'project_doc');
-            else if (a.label === 'Uploaded Fungsi Doc') validTargets = fakeTargets.filter(t => t.type === 'fungsi_doc');
-            else validTargets = fakeTargets.filter(t => t.type === 'project_doc' || t.type === 'fungsi_doc'); 
+            
+            if (a.label === 'Asked AI' || a.label === 'Generated Summary') {
+                validTargets = fakeTargets.filter(t => t.type === 'ai');
+            } else if (a.label === 'Searched') {
+                validTargets = fakeTargets.filter(t => t.type === 'search');
+            } else if (a.label === 'Accessed Project Dashboard') {
+                validTargets = fakeTargets.filter(t => t.type === 'project_dashboard');
+            } else if (a.label === 'Viewed Doc Dashboard') {
+                validTargets = fakeTargets.filter(t => t.type === 'doc_dashboard');
+            } else if (a.label === 'Uploaded Project Doc') {
+                validTargets = fakeTargets.filter(t => t.type === 'project_doc');
+            } else if (a.label === 'Uploaded Fungsi Doc') {
+                validTargets = fakeTargets.filter(t => t.type === 'fungsi_doc');
+            } else {
+                
+                validTargets = fakeTargets.filter(t => t.type === 'project_doc' || t.type === 'fungsi_doc'); 
+            }
             
             const t = validTargets[Math.floor(Math.random() * validTargets.length)];
             
             let timeStr = 'Just now';
             if (isHistorical) {
-                let d = new Date();
-                d.setDate(d.getDate() - Math.floor(Math.random() * 30)); 
+                let d = new Date(); d.setDate(d.getDate() - Math.floor(Math.random() * 30)); 
                 timeStr = d.toLocaleDateString('en-GB', {day: '2-digit', month: 'short', year: 'numeric'}) + ' ' + String(Math.floor(Math.random()*24)).padStart(2, '0') + ':' + String(Math.floor(Math.random()*60)).padStart(2, '0');
             }
+            
             return { user: u.name, initial: u.initial, avatar_color: a.avatar, action_label: a.label, action_color: a.color, document: t.doc, location: t.loc, time: timeStr, icon: a.icon };
         }
 
@@ -834,32 +982,28 @@
         let currentDocsSummarized = {{ str_replace(',', '', $aiImpact['documents_summarized'] ?? '430') }};
 
         function updateAiImpactCounter(type) {
-            if(type === 'ai_query') { 
-                currentQueries += 1; 
-                currentDocsSummarized += Math.floor(Math.random() * 4) + 2; 
-            } 
+            if(type === 'ai_query') { currentQueries += 1; currentDocsSummarized += Math.floor(Math.random() * 4) + 2; } 
             else if (type === 'ai_upload') {
                 currentDocsSummarized += 1;
-            }
-            else if(type === 'background_growth') { 
-                currentQueries += Math.floor(Math.random() * 2); 
-                currentDocsSummarized += Math.floor(Math.random() * 2); 
             }
             if(document.getElementById('dynamic-queries')) document.getElementById('dynamic-queries').innerText = currentQueries.toLocaleString('id-ID');
             if(document.getElementById('dynamic-docs')) document.getElementById('dynamic-docs').innerText = currentDocsSummarized.toLocaleString('id-ID');
         }
 
         function triggerNewLiveLog() {
-            const log = generateRandomLog(); 
-            const liveTbody = document.getElementById('liveAuditTableBody'); 
-            if(!liveTbody) return;
+            const log = generateRandomLog();
+            const safeTitle = log.document.replace(/"/g, '&quot;'); 
             
-            const safeTitle = log.document ? log.document.replace(/"/g, '&quot;') : ''; 
-            
-            if (log.action_label === 'Asked AI' || log.action_label === 'Searched') updateAiImpactCounter('ai_query');
-            else if (log.action_label === 'Uploaded') updateAiImpactCounter('ai_upload');
+           
+            if (log.action_label === 'Asked AI' || log.action_label === 'Searched') {
+                updateAiImpactCounter('ai_query');
+            } else if (log.action_label.includes('Uploaded')) {
+                updateAiImpactCounter('ai_upload');
+            }
 
-            const liveTr = document.createElement('tr'); 
+            const liveTbody = document.getElementById('liveAuditTableBody');
+            if(!liveTbody) return;
+            const liveTr = document.createElement('tr');
             liveTr.className = 'border-b border-gray-100 hover:bg-green-50 transition-colors animate-new-row group cursor-pointer'; 
             
             if (log.action_label === 'Asked AI') {
@@ -875,11 +1019,10 @@
             liveTr.innerHTML = `
                 <td class="py-2.5 pl-3 flex items-center gap-3"><div class="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-black border border-white shadow-sm ${log.avatar_color}">${log.initial}</div><span class="font-bold text-gray-800 text-xs group-hover:text-[#168F4A] transition-colors">${log.user}</span></td>
                 <td class="py-2.5"><span class="px-2.5 py-1 rounded-lg text-[9px] font-bold border flex items-center gap-1.5 w-fit shadow-sm ${log.action_color}"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">${log.icon}</svg>${log.action_label}</span></td>
-                <td class="py-2.5"><div class="font-bold text-gray-900 text-xs truncate max-w-[200px] xl:max-w-[350px]" title="${safeTitle}">${log.document || ''}</div><div class="text-[9px] text-gray-500 mt-0.5"><span class="font-bold uppercase tracking-wider">${log.location || ''}</span></div></td>
+                <td class="py-2.5"><div class="font-bold text-gray-900 text-xs truncate max-w-[200px] xl:max-w-[350px]" title="${safeTitle}">${log.document}</div><div class="text-[9px] text-gray-500 mt-0.5"><span class="font-bold uppercase tracking-wider">${log.location}</span></div></td>
                 <td class="py-2.5 text-right pr-3"><span class="text-[10px] text-gray-500 font-semibold">${log.time}</span></td>`;
-            
-            liveTbody.insertBefore(liveTr, liveTbody.firstChild); 
-            if (liveTbody.children.length > 5) liveTbody.removeChild(liveTbody.lastElementChild);
+            liveTbody.insertBefore(liveTr, liveTbody.firstChild);
+            while (liveTbody.children.length > 5) liveTbody.removeChild(liveTbody.lastElementChild);
         }
 
         function startLiveSimulation() {
@@ -887,24 +1030,26 @@
             setTimeout(() => {
                 const eventsToTrigger = Math.random() > 0.8 ? 2 : 1; 
                 for(let i=0; i<eventsToTrigger; i++) setTimeout(() => triggerNewLiveLog(), i * 400); 
-                updateAiImpactCounter('background_growth'); 
+                
+                updateAiImpactCounter('background_growth');
+                
                 startLiveSimulation(); 
             }, nextInterval);
         }
 
-        document.addEventListener('DOMContentLoaded', () => { 
+        document.addEventListener('DOMContentLoaded', () => {
             updateTrendingSearches(); 
-            for(let i=0; i<5; i++) triggerNewLiveLog(); 
+            for(let i = 0; i < 5; i++) { triggerNewLiveLog(); }
             startLiveSimulation(); 
         });
 
-        document.querySelectorAll('a').forEach(link => { 
-            link.addEventListener('click', function(e) { 
-                if (this.target === '_blank') return; 
-                e.preventDefault(); 
-                document.body.style.opacity = '0.5'; 
-                setTimeout(() => window.location.href = this.href, 200); 
-            }); 
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.target === '_blank') return;
+                e.preventDefault();
+                document.body.classList.add('fade-out');
+                setTimeout(() => { window.location.href = this.href; }, 200);
+            });
         });
     </script>
 </body>
