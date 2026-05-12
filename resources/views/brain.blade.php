@@ -898,7 +898,7 @@
             
             // Download & Export (Yellow/Cyan)
             { label: 'Downloaded', color: 'text-cyan-700 bg-cyan-50 border-cyan-200', avatar: 'bg-cyan-100 text-cyan-700', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />' },
-            { label: 'Exported Report', color: 'text-yellow-700 bg-yellow-50 border-yellow-200', avatar: 'bg-yellow-100 text-yellow-700', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />' }
+            { label: 'Exported Document', color: 'text-yellow-700 bg-yellow-50 border-yellow-200', avatar: 'bg-yellow-100 text-yellow-700', icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />' }
         ];
 
         const fakeTargets = [
@@ -940,8 +940,7 @@
             { doc: 'Project Portfolio Overview', loc: 'Module: Project Dashboard', type: 'project_dashboard' },
             { doc: 'Project Dashboard PIPMS', loc: 'Module: Project Dashboard', type: 'project_dashboard' },
             { doc: 'Executive Summary Dashboard', loc: 'Module: Project Dashboard', type: 'project_dashboard' },
-            { doc: 'Document Inventory & Lifecycle', loc: 'Module: Document Dashboard', type: 'doc_dashboard' },
-            { doc: 'Monthly Trending Uploads', loc: 'Module: Document Dashboard', type: 'doc_dashboard' }
+            { doc: 'Document Inventory', loc: 'Module: Document Dashboard', type: 'doc_dashboard' },
         ];
 
        function generateRandomLog(isHistorical = false) {
